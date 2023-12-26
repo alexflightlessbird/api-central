@@ -32,7 +32,7 @@ const matchRegex = async (req, res) => {
 
     if (responses.length > 0) {
       console.log(
-        `String: ${string} with regex ${regex} found ${numMatches} matches - ${responses}`
+        `String: \"${string}\" with regex \"${regex}\" found ${numMatches} matches`
       );
       return res.json({
         result: responses,
