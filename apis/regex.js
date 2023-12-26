@@ -8,7 +8,7 @@ const matchRegex = async (req, res) => {
       return;
     }
 
-    const regexObj = new RegExp(regex, 'gm');
+    const regexObj = new RegExp(regex, "gm");
 
     let matches;
     const responses = [];
@@ -31,12 +31,16 @@ const matchRegex = async (req, res) => {
     }
 
     if (responses.length > 0) {
+      console.log(
+        `String: ${string} with regex ${regex} found ${numMatches} matches - ${responses}`
+      );
       return res.json({
         result: responses,
         exists: true,
         numMatches: numMatches,
       });
     } else {
+      console.log(`String: ${string} with regex ${regex} found no matches`);
       return res.status(404).json({
         result: "No match found",
         exists: false,
