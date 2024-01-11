@@ -1,7 +1,6 @@
 const matchRegex = async (req, res) => {
   try {
-    const string = req.body.string;
-    const regex = req.body.regex;
+    const { string, regex } = req.body;
 
     if (string == undefined || regex == undefined) {
       res.status(400).json({ error: "Both string and regex must be defined" });
