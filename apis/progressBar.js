@@ -55,7 +55,9 @@ const progressBar = async (req, res) => {
       context.fillRect(0, 0, canvas.width, canvas.height);
     }
   } else {
-    context.filllStyle = "rgba(0, 0, 0, 0)";
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.globalCompositeOperation = "source-over";
+    context.fillStyle = `rgba(0, 0, 0, 0)`;
     context.fillRect(0, 0, canvas.width, canvas.height);
   }
 
