@@ -8,7 +8,16 @@ function isValidHexColor(color) {
 }
 
 const progressBar = async (req, res) => {
-  const { bgcolor, maxval, val, fillcolor, barcolor } = req.query;
+  const {
+    bgcolor,
+    maxval,
+    val,
+    fillcolor,
+    barcolor,
+    fontcolor,
+    showval,
+    showpercent,
+  } = req.query;
 
   if (!maxval || !val) {
     res.status(400).json({
@@ -24,6 +33,13 @@ const progressBar = async (req, res) => {
     res
       .status(400)
       .json({ error: "Required values maxval & val must be numbers" });
+    return;
+  }
+
+  if (tval > tmax) {
+    res.status(400).json({
+      error: "Required value val must be less than or equal to maxval",
+    });
     return;
   }
 
@@ -78,6 +94,35 @@ const progressBar = async (req, res) => {
   const progressPercentFill = (progressPercentage / 100) * (canvas.width - 20);
   context.fillStyle = `#${fill}`;
   context.fillRect(10, 10, progressPercentFill, canvas.height - 20);
+
+  let fontcol;
+
+  if (showval == "true" || showpercent == "true") {
+    if (fontcolor) {
+      if (!isValidHexColor(fontcolor)) {
+        res.status(400).json({ error: "Please provide valid hex codes" });
+        return;
+      } else {
+        fontcol = fontcolor;
+      }
+    } else {
+      fontcol = "07004d";
+    }
+
+    if (showval == "true") {
+      context.font = "30px serif";
+      context.fillStyle = `#${fontcol}`;
+      context.fillText(`${val}`, 15 + progressPercentFill, 50);
+    } else if (showpercent == "true") {
+      context.font = "30px serif";
+      context.fillStyle = `#${fontcol}`;
+      context.fillText(
+        `${progressPercentage.toFixed(0)}%`,
+        15 + progressPercentFill,
+        60
+      );
+    }
+  }
 
   res.status(200);
   res.setHeader("Content-Type", "image/png");
