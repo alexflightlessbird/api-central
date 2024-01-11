@@ -17,6 +17,16 @@ const progressBar = async (req, res) => {
     return;
   }
 
+  const tmax = Number(maxval);
+  const tval = Number(val);
+
+  if (!tmax || !tval) {
+    res
+      .status(400)
+      .json({ error: "Required values maxval & val must be numbers" });
+    return;
+  }
+
   let fill;
 
   if (fillcolor) {
@@ -64,7 +74,7 @@ const progressBar = async (req, res) => {
   context.fillStyle = `#${bar}`;
   context.fillRect(10, 10, canvas.width - 20, canvas.height - 20);
 
-  const progressPercentage = (val / maxval) * 100;
+  const progressPercentage = (tval / tmax) * 100;
   const progressPercentFill = (progressPercentage / 100) * (canvas.width - 20);
   context.fillStyle = `#${fill}`;
   context.fillRect(10, 10, progressPercentFill, canvas.height - 20);
