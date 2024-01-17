@@ -21,7 +21,7 @@ const encodeDecode = async (req, res) => {
 
       if (method == "encode" || method == "e") {
         finalString = encodeURIComponent(string);
-        return res.status(200).json({ newSstring: finalString });
+        return res.status(200).json({ newString: finalString });
       } else if (method == "decode" || method == "d") {
         let tempString = string.replaceAll("%0A", "\\n");
         finalString = decodeURIComponent(tempString);
