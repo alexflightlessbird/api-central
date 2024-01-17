@@ -12,7 +12,6 @@ const encodeDecode = async (req, res) => {
     }
 
     if (method == undefined) {
-      console.log(`Method is: ${req.body}`);
       res.status(400).json({ error: "Method must be be defined" });
       return;
     }
