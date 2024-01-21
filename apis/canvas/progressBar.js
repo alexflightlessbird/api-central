@@ -1,36 +1,7 @@
 const { createCanvas } = require("canvas");
 
-function isValidHexColor(color) {
-  // Regular expression to match a valid hex color (3 or 6 characters, optionally starting with #)
-  const hexColorRegex = /^#?([0-9A-Fa-f]{3}){1,2}$/;
-  const isValid = hexColorRegex.test(color);
-  return isValid;
-}
-
-function rgbToHex(r, g, b) {
-  hex = ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-  return hex;
-}
-
-function hexToRgb(h) {
-  rgb = [
-    ("0x" + h[0] + h[1]) | 0,
-    ("0x" + h[2] + h[3]) | 0,
-    ("0x" + h[4] + h[5]) | 0,
-  ];
-  return rgb;
-}
-
-function avgHexColor(h1, h2) {
-  a = hexToRgb(h1);
-  b = hexToRgb(h2);
-  hex = rgbToHex(
-    ~~((a[0] + b[0]) / 2),
-    ~~((a[1] + b[1]) / 2),
-    ~~((a[2] + b[2]) / 2)
-  );
-  return hex;
-}
+const isValidHexColor = require("../../helper-functions/colors/isValidHexColor");
+const avgHexColor = require("../../helper-functions/colors/avgHexColor");
 
 const progressBar = async (req, res) => {
   const {
