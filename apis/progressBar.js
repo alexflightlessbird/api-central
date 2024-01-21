@@ -7,6 +7,31 @@ function isValidHexColor(color) {
   return isValid;
 }
 
+function rgbToHex(r, g, b) {
+  hex = ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+  return hex;
+}
+
+function hexToRgb(h) {
+  rgb = [
+    ("0x" + h[0] + h[1]) | 0,
+    ("0x" + h[2] + h[3]) | 0,
+    ("0x" + h[4] + h[5]) | 0,
+  ];
+  return rgb;
+}
+
+function avgHexColor(h1, h2) {
+  a = hexToRgb(h1);
+  b = hexToRgb(h2);
+  hex = rgbToHex(
+    ~~((a[0] + b[0]) / 2),
+    ~~((a[1] + b[1]) / 2),
+    ~~((a[2] + b[2]) / 2)
+  );
+  return hex;
+}
+
 const progressBar = async (req, res) => {
   const {
     bgcolor,
@@ -15,9 +40,25 @@ const progressBar = async (req, res) => {
     fillcolor,
     barcolor,
     fontcolor,
+    grad,
+    gradcolor,
     showval,
     showpercent,
   } = req.query;
+
+  console.log(
+    `New request:
+    bgcolor: ${bgcolor}
+    maxval: ${maxval}
+    val: ${val}
+    fillcolor: ${fillcolor}
+    barcolor: ${barcolor}
+    fontcolor: ${fontcolor}
+    grad: ${grad}
+    gradcolor: ${gradcolor}
+    showval: ${showval}
+    showpercent: ${showpercent}`
+  );
 
   if (!maxval || !val) {
     res.status(400).json({
@@ -69,6 +110,21 @@ const progressBar = async (req, res) => {
     bar = "c8c6d7";
   }
 
+  let grdcol;
+
+  if (grad == "true") {
+    if (gradcolor) {
+      if (!isValidHexColor(gradcolor)) {
+        res.status(400).json({ error: "Please provide valid hex codes" });
+        return;
+      } else {
+        grdcol = gradcolor;
+      }
+    } else {
+      grdcol = avgHexColor(fill, bar);
+    }
+  }
+
   const canvas = createCanvas(600, 100);
   const context = canvas.getContext("2d");
 
@@ -92,8 +148,17 @@ const progressBar = async (req, res) => {
 
   const progressPercentage = (tval / tmax) * 100;
   const progressPercentFill = (progressPercentage / 100) * (canvas.width - 20);
-  context.fillStyle = `#${fill}`;
-  context.fillRect(10, 10, progressPercentFill, canvas.height - 20);
+
+  if (grad == "true") {
+    const grd = context.createLinearGradient(0, 0, progressPercentFill, 0);
+    grd.addColorStop(0, `#${fill}`);
+    grd.addColorStop(1, `#${grdcol}`);
+    context.fillStyle = grd;
+    context.fillRect(10, 10, progressPercentFill, canvas.height - 20);
+  } else {
+    context.fillStyle = `#${fill}`;
+    context.fillRect(10, 10, progressPercentFill, canvas.height - 20);
+  }
 
   let fontcol;
 
