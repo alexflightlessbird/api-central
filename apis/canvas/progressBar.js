@@ -27,9 +27,11 @@ const progressBar = async (req, res) => {
   const tval = Number(val);
 
   if (!tmax || !tval) {
-    return res
-      .status(400)
-      .json({ error: "Required values maxval & val must be numbers" });
+    if (tval !== 0) {
+      return res
+        .status(400)
+        .json({ error: "Required values maxval & val must be numbers" });
+    }
   }
 
   if (tval > tmax) {
