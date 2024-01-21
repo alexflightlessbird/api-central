@@ -18,35 +18,31 @@ const progressBar = async (req, res) => {
   } = req.query;
 
   if (!maxval || !val) {
-    res.status(400).json({
+    return res.status(400).json({
       error: "Required values must be defined - maxval & val",
     });
-    return;
   }
 
   const tmax = Number(maxval);
   const tval = Number(val);
 
   if (!tmax || !tval) {
-    res
+    return res
       .status(400)
       .json({ error: "Required values maxval & val must be numbers" });
-    return;
   }
 
   if (tval > tmax) {
-    res.status(400).json({
+    return res.status(400).json({
       error: "Required value val must be less than or equal to maxval",
     });
-    return;
   }
 
   let fill;
 
   if (fillcolor) {
     if (!isValidHexColor(fillcolor)) {
-      res.status(400).json({ error: "Please provide valid hex codes" });
-      return;
+      return res.status(400).json({ error: "Please provide valid hex codes" });
     } else {
       fill = fillcolor;
     }
@@ -58,8 +54,7 @@ const progressBar = async (req, res) => {
 
   if (barcolor) {
     if (!isValidHexColor(barcolor)) {
-      res.status(400).json({ error: "Please provide valid hex codes" });
-      return;
+      return res.status(400).json({ error: "Please provide valid hex codes" });
     } else {
       bar = barcolor;
     }
@@ -72,8 +67,9 @@ const progressBar = async (req, res) => {
   if (grad == "true") {
     if (gradcolor) {
       if (!isValidHexColor(gradcolor)) {
-        res.status(400).json({ error: "Please provide valid hex codes" });
-        return;
+        return res
+          .status(400)
+          .json({ error: "Please provide valid hex codes" });
       } else {
         grdcol = gradcolor;
       }
@@ -87,8 +83,7 @@ const progressBar = async (req, res) => {
 
   if (bgcolor) {
     if (!isValidHexColor(bgcolor)) {
-      res.status(400).json({ error: "Please provide valid hex codes" });
-      return;
+      return res.status(400).json({ error: "Please provide valid hex codes" });
     } else {
       context.fillStyle = `#${bgcolor}`;
       context.fillRect(0, 0, canvas.width, canvas.height);
@@ -122,8 +117,9 @@ const progressBar = async (req, res) => {
   if (showval == "true" || showpercent == "true") {
     if (fontcolor) {
       if (!isValidHexColor(fontcolor)) {
-        res.status(400).json({ error: "Please provide valid hex codes" });
-        return;
+        return res
+          .status(400)
+          .json({ error: "Please provide valid hex codes" });
       } else {
         fontcol = fontcolor;
       }

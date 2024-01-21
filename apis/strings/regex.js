@@ -3,8 +3,9 @@ const matchRegex = async (req, res) => {
     const { string, regex } = req.body;
 
     if (string == undefined || regex == undefined) {
-      res.status(400).json({ error: "Both string and regex must be defined" });
-      return;
+      return res
+        .status(400)
+        .json({ error: "Both string and regex must be defined" });
     }
 
     const regexObj = new RegExp(regex, "gm");
