@@ -5,16 +5,17 @@ const avgHexColor = require("../../helper-functions/colors/avgHexColor");
 
 const progressBar = async (req, res) => {
   const {
-    bgcolor,
-    maxval,
-    val,
-    fillcolor,
-    barcolor,
-    fontcolor,
-    grad,
-    gradcolor,
-    showval,
-    showpercent,
+    bgcolor, // color of background behind bar
+    maxval, // max value - 100%
+    val, // current value - how much of bar is done
+    fillcolor, // color of what hasn't been done
+    barcolor, // color of bar - completed section
+    fontcolor, // color of font
+    fontcolor1, // color of font >= 80%
+    grad, // toggle gradient
+    gradcolor, // if gradient enabled, what color to fade bar to
+    showval, // toggle showing the current val
+    showpercent, // toggle showing the percentage
   } = req.query;
 
   if (!maxval || !val) {
@@ -143,13 +144,21 @@ const progressBar = async (req, res) => {
     let position;
 
     if (progressPercentage >= 80) {
-      if (!fontcolor) {
+      if (fontcolor1) {
+        if (!isValidHexColor(fontcolor1)) {
+          return res
+            .status(400)
+            .json({ error: "Please provide valid hex codes" });
+        } else {
+          fontcol = fontcolor1;
+        }
+      } else {
         fontcol = "c8c6d7";
       }
       let width = context.measureText(val).width;
       position = progressPercentFill - 55 - width;
     } else {
-      position = 15 + progressPercentFill;
+      position = 20 + progressPercentFill;
     }
 
     context.font = "30px serif";
