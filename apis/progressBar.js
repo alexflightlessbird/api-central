@@ -46,20 +46,6 @@ const progressBar = async (req, res) => {
     showpercent,
   } = req.query;
 
-  console.log(
-    `New request:
-    bgcolor: ${bgcolor}
-    maxval: ${maxval}
-    val: ${val}
-    fillcolor: ${fillcolor}
-    barcolor: ${barcolor}
-    fontcolor: ${fontcolor}
-    grad: ${grad}
-    gradcolor: ${gradcolor}
-    showval: ${showval}
-    showpercent: ${showpercent}`
-  );
-
   if (!maxval || !val) {
     res.status(400).json({
       error: "Required values must be defined - maxval & val",
