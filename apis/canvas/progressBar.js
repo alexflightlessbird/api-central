@@ -137,6 +137,10 @@ const progressBar = async (req, res) => {
       }
     }
 
+    if (progressPercentage == 100) {
+      position = progressPercentFill - 70;
+    }
+
     if (showval == "true") {
       context.font = "30px serif";
       context.fillStyle = `#${fontcol}`;
