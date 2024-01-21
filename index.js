@@ -11,10 +11,12 @@ async function Init() {
   const matchRegex = require("./apis/strings/regex.js");
   const progressBar = require("./apis/canvas/progressBar.js");
   const encodeDecode = require("./apis/strings/encodeDecode.js");
+  const replaceText = require("./apis/strings/replace.js");
 
   app.post("/regex", matchRegex);
   app.get("/progress-bar", progressBar);
   app.post("/encode-decode", encodeDecode);
+  app.post("/replace", replaceText);
 
   app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
