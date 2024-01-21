@@ -9,7 +9,7 @@ async function Init() {
   app.use(express.urlencoded({ extended: true }));
 
   const matchRegex = require("./apis/regex.js");
-  const progressBar = require("./apis/progressBar.js");
+  const progressBar = require("./apis/canvas/progressBar.js");
   const encodeDecode = require("./apis/encodeDecode.js");
 
   app.post("/regex", matchRegex);
