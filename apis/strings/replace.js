@@ -20,9 +20,9 @@ const replaceText = async (req, res) => {
 
     let toReplace;
     if (ignoreCase) {
-      toReplace = new RegExp(whatToReplace, "gi");
+      toReplace = new RegExp(whatToReplace, "gmi");
     } else {
-      toReplace = new RegExp(whatToReplace, "g");
+      toReplace = new RegExp(whatToReplace, "gm");
     }
 
     const newString = string.replace(toReplace, replaceValue);
