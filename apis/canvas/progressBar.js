@@ -129,27 +129,32 @@ const progressBar = async (req, res) => {
       fontcol = "07004d";
     }
 
-    let position = 15 + progressPercentFill;
+    let val;
+    let str;
+
+    if (showval == "true") {
+      val = tval.toFixed(0);
+      str = `${val}`;
+    } else if (showpercent == "true") {
+      val = progressPercentage.toFixed(0);
+      str = `${val}%`;
+    }
+
+    let position;
+
     if (progressPercentage >= 80) {
-      position = progressPercentFill - 55;
       if (!fontcolor) {
         fontcol = "c8c6d7";
       }
+      let width = context.measureText(val).width;
+      position = progressPercentFill - 55 - width;
+    } else {
+      position = 15 + progressPercentFill;
     }
 
-    if (progressPercentage == 100) {
-      position = progressPercentFill - 70;
-    }
-
-    if (showval == "true") {
-      context.font = "30px serif";
-      context.fillStyle = `#${fontcol}`;
-      context.fillText(`${tval.toFixed(0)}`, position, 60);
-    } else if (showpercent == "true") {
-      context.font = "30px serif";
-      context.fillStyle = `#${fontcol}`;
-      context.fillText(`${progressPercentage.toFixed(0)}%`, position, 60);
-    }
+    context.font = "30px serif";
+    context.fillStyle = `#${fontcol}`;
+    context.fillText(str, position, 60);
   }
 
   res.status(200);
