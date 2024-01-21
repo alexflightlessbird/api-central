@@ -155,8 +155,13 @@ const progressBar = async (req, res) => {
       } else {
         fontcol = "c8c6d7";
       }
+
       let width = context.measureText(val).width;
-      position = progressPercentFill - 55 - width;
+      if (progressPercentage == 100) {
+        position = progressPercentFill - 65 - width;
+      } else {
+        position = progressPercentFill - 55 - width;
+      }
     } else {
       position = 20 + progressPercentFill;
     }
