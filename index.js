@@ -13,8 +13,11 @@ async function Init() {
   const encodeDecode = require("./apis/strings/encodeDecode.js");
   const replaceText = require("./apis/strings/replace.js");
 
-  app.post("/regex", matchRegex);
+  //canvas
   app.get("/progress-bar", progressBar);
+
+  //strings
+  app.post("/regex", matchRegex);
   app.post("/encode-decode", encodeDecode);
   app.post("/replace", replaceText);
 
