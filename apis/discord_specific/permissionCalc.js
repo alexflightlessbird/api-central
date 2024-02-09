@@ -59,7 +59,17 @@ const permissionCalc = async (req, res) => {
         }
     }
 
-    res.json(result);
+    if (req.query.type === "true_only") {
+        const truePerms = {};
+        for (const perm in result) {
+            if (result.hasOwnProperty(perm) && result[perm]) {
+                truePerms[perm] = true;
+            }
+        }
+        res.status(200).json(truePerms);
+    } else {
+        res.status(200).json(result);
+    }
 }
 
 module.exports = permissionCalc;
