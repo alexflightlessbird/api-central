@@ -12,6 +12,7 @@ async function Init() {
   const progressBar = require("./apis/canvas/progressBar.js");
   const encodeDecode = require("./apis/strings/encodeDecode.js");
   const replaceText = require("./apis/strings/replace.js");
+  const permissionCalc = require("./apis/discord_specific/permissionCalc.js");
 
   //canvas
   app.get("/progress-bar", progressBar);
@@ -20,6 +21,9 @@ async function Init() {
   app.post("/regex", matchRegex);
   app.post("/encode-decode", encodeDecode);
   app.post("/replace", replaceText);
+
+  //discord_specific
+  app.get("/permission-calc",permissionCalc);
 
   app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
