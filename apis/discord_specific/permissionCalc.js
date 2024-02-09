@@ -63,11 +63,11 @@ const permissionCalc = async (req, res) => {
         }
     }
 
-    if (req.query.type === "true_only") {
+    if (req.query.type === "show_all") {
+        return res.status(200).json(result);
+    } else {
         const truePerms = Object.keys(result).filter(perm => result[perm]);
         return res.status(200).json(truePerms);
-    } else {
-        return res.status(200).json(result);
     }
 }
 
