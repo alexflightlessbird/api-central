@@ -48,6 +48,10 @@ const perms = {
 }
 
 const permissionCalc = async (req, res) => {
+    if (req.query.value == undefined) {
+        return res.status(400).json({ error: `value must be defined` });
+    } 
+
     const value = parseInt(req.query.value, 10);
 
     const result = {};
@@ -60,15 +64,10 @@ const permissionCalc = async (req, res) => {
     }
 
     if (req.query.type === "true_only") {
-        const truePerms = {};
-        for (const perm in result) {
-            if (result.hasOwnProperty(perm) && result[perm]) {
-                truePerms[perm] = true;
-            }
-        }
-        res.status(200).json(truePerms);
+        const truePerms = Object.keys(result).filter(perm => result[perm]);
+        return res.status(200).json(truePerms);
     } else {
-        res.status(200).json(result);
+        return res.status(200).json(result);
     }
 }
 
