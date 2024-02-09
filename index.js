@@ -13,6 +13,7 @@ async function Init() {
   const encodeDecode = require("./apis/strings/encodeDecode.js");
   const replaceText = require("./apis/strings/replace.js");
   const permissionCalc = require("./apis/discord_specific/permissionCalc.js");
+  const checkHexColor = require("./apis/strings/checkHexColor.js");
 
   //canvas
   app.get("/progress-bar", progressBar);
@@ -21,6 +22,7 @@ async function Init() {
   app.post("/regex", matchRegex);
   app.post("/encode-decode", encodeDecode);
   app.post("/replace", replaceText);
+  app.get("/check-hex", checkHexColor);
 
   //discord_specific
   app.get("/permission-calc",permissionCalc);
