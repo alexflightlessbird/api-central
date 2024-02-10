@@ -53,7 +53,7 @@ const permissionCalc = async (req, res) => {
     } 
 
     if (!/^\d+$/.test(req.query.value)) {
-        return res.status(400).json({ error: 'Invalid value. Must be a non-negative number. '});
+        return res.status(400).json({ error: 'Invalid value. Must be a non-negative number.' });
     }
 
     const value = BigInt(req.query.value);
