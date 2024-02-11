@@ -17,10 +17,12 @@ async function Init() {
     legacyHeaders: false,
   });
 
-  app.use(limiter);
+  app.use("/", limiter);
 
   const logRequests = (req, res, next) => {
-    console.log(`Request received for ${req.path} at ${new Date()} by user ${req.ip}`);
+    console.log(
+      `Request received for ${req.path} at ${new Date()} by user ${req.ip}`
+    );
     next();
   };
 
