@@ -36,14 +36,18 @@ async function Init() {
     initialLimiter(req, res, next);
   });
 
-  // import endpoint functions
-  const matchRegex = require("./apis/strings/regex.js");
+  // import deployment endpoints
+  const health = require("./apis/deployment/health.js");
+  // import canvas endpoints
   const progressBar = require("./apis/canvas/progressBar.js");
+  // import strings endpoints
+  const matchRegex = require("./apis/strings/regex.js");
   const encodeDecode = require("./apis/strings/encodeDecode.js");
   const replaceText = require("./apis/strings/replace.js");
-  const permissionCalc = require("./apis/discord_specific/permissionCalc.js");
   const checkHexColor = require("./apis/strings/checkHexColor.js");
-  const health = require("./apis/deployment/health.js");
+  // import discord_specific endpoints
+  const permissionCalc = require("./apis/discord_specific/permissionCalc.js");
+
 
   //deployment
   app.get("/health-check", health);
