@@ -8,6 +8,12 @@ async function Init() {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
+  app.use((req, res, next) => {
+    console.log(`Request received for ${req.originalURL} at ${new Date()}`);
+    next();
+  })
+
+  // import endpoint functions
   const matchRegex = require("./apis/strings/regex.js");
   const progressBar = require("./apis/canvas/progressBar.js");
   const encodeDecode = require("./apis/strings/encodeDecode.js");
