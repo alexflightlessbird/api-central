@@ -2,6 +2,8 @@ const express = require("express");
 const rate = require("express-rate-limit");
 require("dotenv").config();
 const port = process.env.PORT;
+const lim = process.env.RATE_LIMIT;
+const timeLim = process.env.RATE_LIMIT_TIME;
 
 async function Init() {
   const app = express();
@@ -9,14 +11,17 @@ async function Init() {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
-  const limiter = rate.rateLimit({
-    windowMs: 0.5 * 60 * 1000,
-    limit: 50,
+  const initialLimiter = rate.rateLimit({
+    windowMs: timeLim * 60 * 1000,
+    limit: lim,
     standardHeaders: "draft-7",
     legacyHeaders: false,
     message: (req, res) => {
+      const retryAfterSeconds =
+        Math.ceil((req.rateLimit.resetTime - Date.now()) / 1000) || 1;
       return res.status(429).json({
         error: `Too many requests from this IP, please try again later.`,
+        retryAfter: retryAfterSeconds,
       });
     },
   });
@@ -28,7 +33,7 @@ async function Init() {
 
     //prettier-ignore
     console.log(`Request received for ${req.path} at ${new Date()} by user ${req.ip}`);
-    limiter(req, res, next);
+    initialLimiter(req, res, next);
   });
 
   // import endpoint functions
