@@ -11,14 +11,17 @@ async function Init() {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
+  // rate limiting
   const initialLimiter = rate.rateLimit({
     windowMs: timeLim * 60 * 1000,
     limit: lim,
     standardHeaders: "draft-7",
     legacyHeaders: false,
     message: (req, res) => {
-      const retryAfterSeconds =
-        Math.ceil((req.rateLimit.resetTime - Date.now()) / 1000) || 1;
+      //prettier-ignore
+      const retryAfterSeconds = Math.ceil((req.rateLimit.resetTime - Date.now()) / 1000) || 1;
+      //prettier-ignore
+      console.log(`User ${req.ip} was rate limited for another ${retryAfterSeconds} seconds.`);
       return res.status(429).json({
         error: `Too many requests from this IP, please try again later.`,
         retryAfter: retryAfterSeconds,
@@ -30,40 +33,40 @@ async function Init() {
     if (req.path === "/health-check") {
       return next();
     }
-
     //prettier-ignore
     console.log(`Request received for ${req.path} at ${new Date()} by user ${req.ip}`);
     initialLimiter(req, res, next);
   });
 
-  // import deployment endpoints
+  // import endpoints
+
+  // deployment endpoints
   const health = require("./apis/deployment/health.js");
-  // import canvas endpoints
+  // canvas endpoints
   const progressBar = require("./apis/canvas/progressBar.js");
-  // import strings endpoints
+  // strings endpoints
   const matchRegex = require("./apis/strings/regex.js");
   const encodeDecode = require("./apis/strings/encodeDecode.js");
   const replaceText = require("./apis/strings/replace.js");
   const checkHexColor = require("./apis/strings/checkHexColor.js");
-  // import discord_specific endpoints
+  // discord_specific endpoints
   const permissionCalc = require("./apis/discord_specific/permissionCalc.js");
 
+  // run endpoints
 
-  //deployment
+  // deployment endpoints
   app.get("/health-check", health);
-
-  //canvas
+  // canvas endpoints
   app.get("/progress-bar", progressBar);
-
-  //strings
+  // strings endpoints
   app.post("/regex", matchRegex);
   app.post("/encode-decode", encodeDecode);
   app.post("/replace", replaceText);
   app.get("/check-hex", checkHexColor);
-
-  //discord_specific
+  // discord_specific endpoints
   app.get("/permission-calc", permissionCalc);
 
+  // app and port logging
   app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
   });
