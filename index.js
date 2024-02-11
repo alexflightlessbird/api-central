@@ -1,4 +1,5 @@
 const express = require("express");
+const rateLimit = require("express-rate-limit");
 require("dotenv").config();
 const port = process.env.PORT;
 
@@ -8,10 +9,20 @@ async function Init() {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
+  const limiter = rateLimit({
+    windowMs: 60 * 1000,
+    max: 50,
+    message: "Error: rate limit exceeded",
+    standardHeaders: true,
+    legacyHeaders: false,
+  });
+
+  app.use(limiter);
+
   const logRequests = (req, res, next) => {
-    console.log(`Request received for ${req.path} at ${new Date()}`);
+    console.log(`Request received for ${req.path} at ${new Date()} by user ${req.ip}`);
     next();
-  }
+  };
 
   app.use(logRequests);
 
@@ -37,7 +48,7 @@ async function Init() {
   app.get("/check-hex", checkHexColor);
 
   //discord_specific
-  app.get("/permission-calc",permissionCalc);
+  app.get("/permission-calc", permissionCalc);
 
   app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
