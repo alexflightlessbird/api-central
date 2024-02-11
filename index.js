@@ -22,6 +22,10 @@ async function Init() {
   const replaceText = require("./apis/strings/replace.js");
   const permissionCalc = require("./apis/discord_specific/permissionCalc.js");
   const checkHexColor = require("./apis/strings/checkHexColor.js");
+  const health = require("./apis/deployment/health.js");
+
+  //deployment
+  app.get("/health-check", health);
 
   //canvas
   app.get("/progress-bar", progressBar);
