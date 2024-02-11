@@ -26,17 +26,10 @@ async function Init() {
       return next();
     }
 
+    //prettier-ignore
+    console.log(`Request received for ${req.path} at ${new Date()} by user ${req.ip}`);
     limiter(req, res, next);
   });
-
-  const logRequests = (req, res, next) => {
-    console.log(
-      `Request received for ${req.path} at ${new Date()} by user ${req.ip}`
-    );
-    next();
-  };
-
-  app.use(logRequests);
 
   // import endpoint functions
   const matchRegex = require("./apis/strings/regex.js");
