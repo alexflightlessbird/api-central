@@ -8,10 +8,12 @@ async function Init() {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
-  app.use((req, res, next) => {
-    console.log(`Request received for ${req.originalURL} at ${new Date()}`);
+  const logRequests = (req, res, next) => {
+    console.log(`Request received for ${req.path} at ${new Date()}`);
     next();
-  })
+  }
+
+  app.use(logRequests);
 
   // import endpoint functions
   const matchRegex = require("./apis/strings/regex.js");
