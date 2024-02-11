@@ -39,7 +39,6 @@ async function Init() {
   });
 
   // import endpoints
-
   // deployment endpoints
   const health = require("./apis/deployment/health.js");
   // canvas endpoints
@@ -53,7 +52,6 @@ async function Init() {
   const permissionCalc = require("./apis/discord_specific/permissionCalc.js");
 
   // run endpoints
-
   // deployment endpoints
   app.get("/health-check", health);
   // canvas endpoints
