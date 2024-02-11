@@ -1,4 +1,5 @@
 const express = require("express");
+const rate = require("express-rate-limit");
 require("dotenv").config();
 const port = process.env.PORT;
 
@@ -7,6 +8,26 @@ async function Init() {
 
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
+
+  const limiter = rate.rateLimit({
+    windowMs: 0.5 * 60 * 1000,
+    limit: 50,
+    standardHeaders: "draft-7",
+    legacyHeaders: false,
+    message: (req, res) => {
+      return res.status(429).json({
+        error: `Too many requests from this IP, please try again later.`,
+      });
+    },
+  });
+
+  app.use((req, res, next) => {
+    if (req.path === "/health-check") {
+      return next();
+    }
+
+    limiter(req, res, next);
+  });
 
   const logRequests = (req, res, next) => {
     console.log(
