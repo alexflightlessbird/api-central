@@ -20,8 +20,6 @@ const qrCode = async (req, res) => {
     canvasSize = Number(size);
   }
 
-  console.log(canvasSize);
-
   try {
     const qrCodeDataURL = await generateQRCode(url);
 
