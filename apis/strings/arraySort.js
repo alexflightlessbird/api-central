@@ -4,6 +4,10 @@ const arraySort = async (req, res) => {
   try {
     const { inputArray } = req.body;
 
+    if (!inputArray) {
+      return res.status(400).json({ error: "inputArray must be defined" });
+    }
+
     if (!Array.isArray(inputArray)) {
       return res
         .status(400)
