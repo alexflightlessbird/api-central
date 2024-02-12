@@ -1,3 +1,5 @@
+//endpoint base code forked from https://github.com/TheRealDax/multi-api/blob/main/endpoints/regex.js
+
 const matchRegex = async (req, res) => {
   try {
     const { string, regex } = req.body;
