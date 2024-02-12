@@ -49,6 +49,7 @@ async function Init() {
   const qrCode = require("./apis/canvas/qrCode.js");
   // colors endpoints
   const checkHexColor = require("./apis/colors/checkHexColor.js");
+  const randomHex = require("./apis/colors/randomHex.js");
   // strings endpoints
   const matchRegex = require("./apis/strings/regex.js");
   const encodeDecode = require("./apis/strings/encodeDecode.js");
@@ -65,6 +66,7 @@ async function Init() {
   app.get("/qrcode", qrCode);
   // colors endpoints
   app.get("/check-hex", checkHexColor);
+  app.get("/random-hex", randomHex);
   // strings endpoints
   app.post("/regex", matchRegex);
   app.post("/encode-decode", encodeDecode);
