@@ -49,9 +49,9 @@ const matchRegex = async (req, res) => {
         numMatches: numMatches,
       });
     }
-  } catch (error) {
-    console.error("Error:", error);
-    return res.status(500).json({ error: `${error}` });
+  } catch (err) {
+    console.error("Error:", err);
+    return res.status(500).json({ error: `${err}` });
   }
 };
 

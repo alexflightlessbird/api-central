@@ -48,9 +48,9 @@ const encodeDecode = async (req, res) => {
           .json({ error: "Method must be either encode (e) or decode (d)" });
       }
     }
-  } catch (error) {
-    console.error("Error:", error);
-    return res.status(500).json({ error: `${error}` });
+  } catch (err) {
+    console.error("Error:", err);
+    return res.status(500).json({ error: `${err}` });
   }
 };
 

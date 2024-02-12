@@ -34,8 +34,8 @@ const qrCode = async (req, res) => {
     res.set("Content-Type", "image/png");
     res.status(200).send(pngBuffer);
   } catch (err) {
-    console.error("`Error generating QR code:", err);
-    return res.status(500).json({ error: "Internal Server Error" });
+    console.error("Error:", err);
+    return res.status(500).json({ error: `${err}` });
   }
 };
 

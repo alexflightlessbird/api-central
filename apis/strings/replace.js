@@ -28,9 +28,9 @@ const replaceText = async (req, res) => {
     const newString = string.replace(toReplace, replaceValue);
 
     return res.status(200).json({ newString: newString });
-  } catch (error) {
-    console.error("Error:", error);
-    return res.status(500).json({ error: `${error}` });
+  } catch (err) {
+    console.error("Error:", err);
+    return res.status(500).json({ error: `${err}` });
   }
 };
 
