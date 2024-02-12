@@ -46,6 +46,7 @@ async function Init() {
   const health = require("./apis/deployment/health.js");
   // canvas endpoints
   const progressBar = require("./apis/canvas/progressBar.js");
+  const qrCode = require("./apis/canvas/qrCode.js");
   // strings endpoints
   const matchRegex = require("./apis/strings/regex.js");
   const encodeDecode = require("./apis/strings/encodeDecode.js");
@@ -59,6 +60,7 @@ async function Init() {
   app.get("/health-check", health);
   // canvas endpoints
   app.get("/progress-bar", progressBar);
+  app.get("/qrcode", qrCode);
   // strings endpoints
   app.post("/regex", matchRegex);
   app.post("/encode-decode", encodeDecode);
