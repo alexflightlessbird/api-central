@@ -2,7 +2,7 @@ const isNumber = require("../../helper-functions/numbers/isNumber");
 
 const arraySort = async (req, res) => {
   try {
-    const { inputArray } = req.body;
+    const { inputArray, sortOrder } = req.body;
 
     if (!inputArray) {
       return res.status(400).json({ error: "inputArray must be defined" });
@@ -12,6 +12,18 @@ const arraySort = async (req, res) => {
       return res
         .status(400)
         .json({ error: "inputArray must be an array of values" });
+    }
+
+    let order;
+
+    if (!sortOrder) {
+      order = "alphabetical";
+    } else if (sortOrder == "alphabetical" || sortOrder == "reverse") {
+      order = sortOrder;
+    } else {
+      return res
+        .status(400)
+        .json({ error: "sortOrder must be either alphabetical or reverse" });
     }
 
     const numbersArray = [];
@@ -25,13 +37,30 @@ const arraySort = async (req, res) => {
       }
     });
 
-    const sortedNumbers = numbersArray.slice().sort((a, b) => a - b);
-    const sortedText = textArray.slice().sort();
+    const sortedNumbers =
+      order === "reverse"
+        ? numbersArray.slice().sort((a, b) => b - a)
+        : numbersArray.slice().sort((a, b) => a - b);
+    const sortedText =
+      order === "reverse"
+        ? textArray.slice().sort().reverse()
+        : textArray.slice().sort();
 
     const sortedArray = sortedNumbers.concat(sortedText);
     const sortedString = sortedArray.join(", ");
 
-    res.status(200).json({ array: sortedArray, string: sortedString });
+    console.log(sortedNumbers.length);
+
+    res.status(200).json({
+      array: sortedArray,
+      string: sortedString,
+      numbersArray: sortedNumbers,
+      numbersLength: sortedNumbers.length,
+      numbersString: sortedNumbers.join(", "),
+      textArray: sortedText,
+      textLength: sortedText.length,
+      textString: sortedText.join(", "),
+    });
   } catch (err) {
     console.error("Error:", err);
     return res.status(500).json({ error: `${err}` });
