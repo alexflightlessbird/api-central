@@ -2,6 +2,7 @@ const { createCanvas } = require("canvas");
 
 const isValidHexColor = require("../../helper-functions/colors/isValidHexColor");
 const avgHexColor = require("../../helper-functions/colors/avgHexColor");
+const isNumber = require("../../helper-functions/numbers/isNumber");
 
 const progressBar = async (req, res) => {
   try {
@@ -25,16 +26,12 @@ const progressBar = async (req, res) => {
       });
     }
 
+    if (!isNumber(maxval) || !isNumber(val)) {
+      return res.status(400).json({ error: "maxval & val must be numbers" });
+    }
+
     const tmax = Number(maxval);
     const tval = Number(val);
-
-    if (!tmax || !tval) {
-      if (tval !== 0) {
-        return res
-          .status(400)
-          .json({ error: "Required values maxval & val must be numbers" });
-      }
-    }
 
     if (tval > tmax) {
       return res.status(400).json({
