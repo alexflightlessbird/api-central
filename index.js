@@ -38,6 +38,7 @@ async function Init() {
     //prettier-ignore
     console.log(`Request received for ${req.path} at ${new Date()}`); //removed:  by user ${req.ip}
     //initialLimiter(req, res, next);
+    next();
   });
 
   // import endpoints
