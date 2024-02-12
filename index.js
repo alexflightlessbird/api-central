@@ -47,11 +47,12 @@ async function Init() {
   // canvas endpoints
   const progressBar = require("./apis/canvas/progressBar.js");
   const qrCode = require("./apis/canvas/qrCode.js");
+  // colors endpoints
+  const checkHexColor = require("./apis/colors/checkHexColor.js");
   // strings endpoints
   const matchRegex = require("./apis/strings/regex.js");
   const encodeDecode = require("./apis/strings/encodeDecode.js");
   const replaceText = require("./apis/strings/replace.js");
-  const checkHexColor = require("./apis/strings/checkHexColor.js");
   const arraySort = require("./apis/strings/arraySort.js");
   // discord_specific endpoints
   const permissionCalc = require("./apis/discord_specific/permissionCalc.js");
@@ -62,11 +63,12 @@ async function Init() {
   // canvas endpoints
   app.get("/progress-bar", progressBar);
   app.get("/qrcode", qrCode);
+  // colors endpoints
+  app.get("/check-hex", checkHexColor);
   // strings endpoints
   app.post("/regex", matchRegex);
   app.post("/encode-decode", encodeDecode);
   app.post("/replace", replaceText);
-  app.get("/check-hex", checkHexColor);
   app.post("/array-sort", arraySort);
   // discord_specific endpoints
   app.get("/permission-calc", permissionCalc);
