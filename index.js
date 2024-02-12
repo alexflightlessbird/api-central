@@ -52,6 +52,7 @@ async function Init() {
   const encodeDecode = require("./apis/strings/encodeDecode.js");
   const replaceText = require("./apis/strings/replace.js");
   const checkHexColor = require("./apis/strings/checkHexColor.js");
+  const arraySort = require("./apis/strings/arraySort.js");
   // discord_specific endpoints
   const permissionCalc = require("./apis/discord_specific/permissionCalc.js");
 
@@ -66,6 +67,7 @@ async function Init() {
   app.post("/encode-decode", encodeDecode);
   app.post("/replace", replaceText);
   app.get("/check-hex", checkHexColor);
+  app.post("/array-sort", arraySort);
   // discord_specific endpoints
   app.get("/permission-calc", permissionCalc);
 
