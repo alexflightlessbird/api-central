@@ -49,8 +49,6 @@ const arraySort = async (req, res) => {
     const sortedArray = sortedNumbers.concat(sortedText);
     const sortedString = sortedArray.join(", ");
 
-    console.log(sortedNumbers.length);
-
     res.status(200).json({
       array: sortedArray,
       string: sortedString,
