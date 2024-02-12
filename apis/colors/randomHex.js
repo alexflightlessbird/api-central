@@ -1,11 +1,6 @@
 const randomHexColor = require("../../helper-functions/colors/randomHexColor");
 const isValidHexColor = require("../../helper-functions/colors/isValidHexColor");
 
-require("dotenv").config();
-const port = process.env.PORT;
-const host = process.env.HOST;
-const env = process.env.NODE_ENV;
-
 const randomHex = async (req, res) => {
   try {
     const randomHexCode = randomHexColor();
