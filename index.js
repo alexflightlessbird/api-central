@@ -1,9 +1,9 @@
 const express = require("express");
-const rate = require("express-rate-limit");
+//const rate = require("express-rate-limit");
 require("dotenv").config();
 const port = process.env.PORT;
-const lim = process.env.RATE_LIMIT;
-const timeLim = process.env.RATE_LIMIT_TIME;
+//const lim = process.env.RATE_LIMIT;
+//const timeLim = process.env.RATE_LIMIT_TIME;
 
 async function Init() {
   const app = express();
@@ -11,7 +11,8 @@ async function Init() {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
-  // rate limiting
+  /*
+  // rate limiting - TEMPORARILY DISABLED - PROXY ISSUE
   const initialLimiter = rate.rateLimit({
     windowMs: timeLim * 60 * 1000,
     limit: lim,
@@ -28,13 +29,14 @@ async function Init() {
       });
     },
   });
+  */
 
   app.use((req, res, next) => {
     if (req.path === "/health-check") {
       return next();
     }
     //prettier-ignore
-    console.log(`Request received for ${req.path} at ${new Date()} by user ${req.ip}`);
+    console.log(`Request received for ${req.path} at ${new Date()}`); //removed:  by user ${req.ip}
     initialLimiter(req, res, next);
   });
 
@@ -63,6 +65,14 @@ async function Init() {
   app.get("/check-hex", checkHexColor);
   // discord_specific endpoints
   app.get("/permission-calc", permissionCalc);
+
+  app.use(function (req, res, next) {
+    if (!app.path(req, res)) {
+      return res.status(404).json({ error: "This endpoint doesn't exist" });
+    } else {
+      next();
+    }
+  });
 
   // app and port logging
   app.listen(port, () => {
