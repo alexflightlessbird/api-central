@@ -71,8 +71,6 @@ const permissionComp = async (req, res) => {
     } else {
       return res.status(200).json(trueChanges);
     }
-
-    res.json(changes);
   } catch (err) {
     console.error("Error:", err);
     return res.status(500).json({ error: `${err}` });
