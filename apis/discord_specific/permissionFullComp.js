@@ -58,18 +58,19 @@ const permissionComp = async (req, res) => {
         .replace(/\//g, " ➜ ")
     );
 
-    if (req.query.type === "show_all") {
-      return res.status(200).json(changes);
-    } else if (req.query.type === "string") {
-      const trueChangesString = trueChanges.join(", ");
-      return res.status(200).json({ changes: trueChangesString });
-    } else if (req.query.type === "emojistring") {
-      const emojiChangesString = emojiChanges.join(", ");
-      return res.status(200).json({ changes: emojiChangesString });
-    } else if (req.query.type === "emoji") {
-      return res.status(200).json(emojiChanges);
-    } else {
-      return res.status(200).json(trueChanges);
+    switch (req.query.type) {
+      case "show_all":
+        return res.status(200).json(changes);
+      case "string":
+        const trueChangesString = trueChanges.join(", ");
+        return res.status(200).json({ changes: trueChangesString });
+      case "emojistring":
+        const emojiChangesString = emojiChanges.join(", ");
+        return res.status(200).json({ changes: emojiChangesString });
+      case "emoji":
+        return res.status(200).josn(emojiChanges);
+      default:
+        return res.status(200).json(trueChanges);
     }
   } catch (err) {
     console.error("Error:", err);

@@ -21,18 +21,19 @@ const permissionCalc = async (req, res) => {
     const truePerms = Object.keys(result).filter((perm) => result[perm]);
     const emojiPerms = truePerms.map((perm) => `${perm}${emoji}`);
 
-    if (req.query.type === "show_all") {
-      return res.status(200).json(result);
-    } else if (req.query.type === "string") {
-      const truePermsString = truePerms.join(", ");
-      return res.status(200).json({ permissions: truePermsString });
-    } else if (req.query.type === "emojistring") {
-      const emojiPermsString = emojiPerms.join(", ");
-      return res.status(200).json({ permissions: emojiPermsString });
-    } else if (req.query.type === "emoji") {
-      return res.status(200).json(emojiPerms);
-    } else {
-      return res.status(200).json(truePerms);
+    switch (req.query.type) {
+      case "show_all":
+        return res.status(200).json(result);
+      case "string":
+        const truePermsString = truePerms.join(", ");
+        return res.status(200).json({ permissions: truePermsString });
+      case "emojistring":
+        const emojiPermsString = emojiPerms.join(", ");
+        return res.status(200).json({ permissions: emojiPermsString });
+      case "emoji":
+        return res.status(200).json(emojiPerms);
+      default:
+        return res.status(200).json(truePerms);
     }
   } catch (err) {
     console.error("Error:", err);
