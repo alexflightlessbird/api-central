@@ -50,7 +50,6 @@ const permissionComp = async (req, res) => {
     const trueChanges = Object.keys(changes)
       .filter((perm) => changes[perm] !== "no change")
       .map((perm) => `${perm}: ${changes[perm]}`);
-    const trueChangesString = trueChanges.join(", ");
     const emojiChanges = trueChanges.map((change) =>
       change
         .replace(/allow/g, ":white_check_mark:")
@@ -62,6 +61,7 @@ const permissionComp = async (req, res) => {
     if (req.query.type === "show_all") {
       return res.status(200).json(changes);
     } else if (req.query.type === "string") {
+      const trueChangesString = trueChanges.join(", ");
       return res.status(200).json({ changes: trueChangesString });
     } else if (req.query.type === "emojistring") {
       const emojiChangesString = emojiChanges.join(", ");
