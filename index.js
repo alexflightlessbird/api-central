@@ -26,6 +26,7 @@ async function Init() {
   // canvas endpoints
   const progressBar = require("./apis/canvas/progressBar.js");
   const qrCode = require("./apis/canvas/qrCode.js");
+  const faceClaim = require("./apis/canvas/faceClaim.js");
   // colors endpoints
   const checkHexColor = require("./apis/colors/checkHexColor.js");
   const randomHex = require("./apis/colors/randomHex.js");
@@ -36,6 +37,8 @@ async function Init() {
   const arraySort = require("./apis/strings/arraySort.js");
   // discord_specific endpoints
   const permissionCalc = require("./apis/discord_specific/permissionCalc.js");
+  const permissionComp = require("./apis/discord_specific/permissionComp.js");
+  const permissionFullComp = require("./apis/discord_specific/permissionFullComp.js");
 
   // run endpoints
   // deployment endpoints
@@ -43,6 +46,7 @@ async function Init() {
   // canvas endpoints
   app.get("/progress-bar", progressBar);
   app.get("/qrcode", qrCode);
+  app.get("face-claim", faceClaim);
   // colors endpoints
   app.get("/check-hex", checkHexColor);
   app.get("/random-hex", randomHex);
@@ -53,6 +57,8 @@ async function Init() {
   app.post("/array-sort", arraySort);
   // discord_specific endpoints
   app.get("/permission-calc", permissionCalc);
+  app.get("/permission-comp", permissionComp);
+  app.get("/permission-comp/full", permissionFullComp);
 
   app.use(function (req, res, next) {
     if (!app.path(req, res)) {
