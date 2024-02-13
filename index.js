@@ -1,9 +1,6 @@
 const express = require("express");
-//const rate = require("express-rate-limit");
 require("dotenv").config();
 const port = process.env.PORT;
-//const lim = process.env.RATE_LIMIT;
-//const timeLim = process.env.RATE_LIMIT_TIME;
 
 async function Init() {
   const app = express();
@@ -11,35 +8,17 @@ async function Init() {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
-  /*
-  // rate limiting - TEMPORARILY DISABLED - PROXY ISSUE
-  const initialLimiter = rate.rateLimit({
-    windowMs: timeLim * 60 * 1000,
-    limit: lim,
-    standardHeaders: "draft-7",
-    legacyHeaders: false,
-    message: (req, res) => {
-      //prettier-ignore
-      const retryAfterSeconds = Math.ceil((req.rateLimit.resetTime - Date.now()) / 1000) || 1;
-      //prettier-ignore
-      console.log(`User ${req.ip} was rate limited for another ${retryAfterSeconds} seconds.`);
-      return res.status(429).json({
-        error: `Too many requests from this IP, please try again later.`,
-        retryAfter: retryAfterSeconds,
-      });
-    },
-  });
-  */
-
   app.use((req, res, next) => {
-    if (req.path === "/health-check") {
+    if (req.path === "/health-check" || req.path.startsWith("/auth/")) {
       return next();
     }
     //prettier-ignore
-    console.log(`Request received for ${req.path} at ${new Date()}`); //removed:  by user ${req.ip}
-    //initialLimiter(req, res, next);
+    console.log(`Request received for ${req.path} at ${new Date()}`);
     next();
   });
+
+  // import middleware
+  const authorizationMiddleware = require("./middleware/authorizationMiddleware.js");
 
   // import endpoints
   // deployment endpoints
