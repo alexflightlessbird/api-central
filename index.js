@@ -81,4 +81,4 @@ async function Init() {
   });
 }
 
-Init();
+Init().catch(console.error);
