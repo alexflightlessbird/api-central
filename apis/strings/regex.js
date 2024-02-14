@@ -3,17 +3,15 @@
 const matchRegex = async (req, res) => {
   try {
     const { regex } = req.body;
-    if (req.body.string == undefined || regex == undefined) {
+    let { string } = req.body;
+    if (string == undefined || regex == undefined) {
       return res
         .status(400)
         .json({ error: "Both string and regex must be defined" });
     }
 
-    let string;
-    if (typeof req.body.string !== "string") {
-      string = req.body.string.toString();
-    } else if (typeof req.body.string === "string") {
-      string = req.body.string;
+    if (typeof string !== "string") {
+      string = string.toString();
     }
 
     const regexObj = new RegExp(regex, "gm");

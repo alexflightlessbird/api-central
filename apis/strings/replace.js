@@ -1,9 +1,9 @@
 const replaceText = async (req, res) => {
   try {
-    const { whatToReplace, replaceValue } = req.body;
+    let { string, whatToReplace, replaceValue } = req.body;
 
     if (
-      req.body.string == undefined ||
+      string == undefined ||
       whatToReplace == undefined ||
       replaceValue == undefined
     ) {
@@ -13,11 +13,16 @@ const replaceText = async (req, res) => {
       });
     }
 
-    let string;
-    if (typeof req.body.string !== "string") {
-      string = req.body.string.toString();
-    } else if (typeof req.body.string === "string") {
-      string = req.body.string;
+    if (typeof string !== "string") {
+      string = string.toString();
+    }
+
+    if (typeof whatToReplace !== "string") {
+      whatToReplace = whatToReplace.toString();
+    }
+
+    if (typeof replaceValue !== "string") {
+      replaceValue = replaceValue.toString();
     }
 
     let ignoreCase = false;
