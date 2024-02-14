@@ -1,6 +1,7 @@
 const express = require("express");
 require("dotenv").config();
 const port = process.env.PORT;
+const lockedPath = process.env.LOCKED_PATH; // endpoints with this path are available only for internal use
 
 async function Init() {
   const app = express();
@@ -9,7 +10,7 @@ async function Init() {
   app.use(express.urlencoded({ extended: true }));
 
   app.use((req, res, next) => {
-    if (req.path === "/health-check" || req.path.startsWith("/auth/")) {
+    if (req.path === "/health-check") {
       return next();
     }
     //prettier-ignore
@@ -46,7 +47,7 @@ async function Init() {
   // canvas endpoints
   app.get("/progress-bar", progressBar);
   app.get("/qrcode", qrCode);
-  // app.get("face-claim", faceClaim); - not ready yet
+  // app.get(`${lockedPath}/face-claim`, faceClaim); - not ready yet
   // colors endpoints
   app.get("/check-hex", checkHexColor);
   app.get("/random-hex", randomHex);
