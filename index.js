@@ -65,6 +65,8 @@ async function Init() {
   app.get("/permission-comp/full", permissionFullComp);
 
   const swaggerDoc = YAML.load("./config/docs.yaml");
+  app.use("/docs", swaggerui.serve, swaggerui.setup(swaggerDoc));
+
   app.use(function (req, res, next) {
     if (!app.path(req, res)) {
       return res.status(404).json({ error: "This endpoint doesn't exist" });
