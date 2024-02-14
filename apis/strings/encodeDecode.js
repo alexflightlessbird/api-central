@@ -28,7 +28,7 @@ const encodeDecode = async (req, res) => {
         default:
           return res
             .status(400)
-            .json({ error: "Method must be either encode (e) or decode (d)" });
+            .json({ error: "method must be either encode (e) or decode (d)" });
       }
     } else if (string_array) {
       let finalString = [];
@@ -48,7 +48,7 @@ const encodeDecode = async (req, res) => {
         default:
           return res
             .status(400)
-            .json({ error: "Method must be either encode (e) or decode (d)" });
+            .json({ error: "method must be either encode (e) or decode (d)" });
       }
     }
   } catch (err) {

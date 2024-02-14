@@ -68,7 +68,7 @@ const permissionComp = async (req, res) => {
         const emojiChangesString = emojiChanges.join(", ");
         return res.status(200).json({ changes: emojiChangesString });
       case "emoji":
-        return res.status(200).josn({ changes: emojiChanges });
+        return res.status(200).json({ changes: emojiChanges });
       default:
         return res.status(200).json({ changes: trueChanges });
     }
