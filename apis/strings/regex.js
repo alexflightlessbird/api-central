@@ -43,7 +43,7 @@ const matchRegex = async (req, res) => {
       });
     } else {
       console.log(`String: ${string} with regex ${regex} found no matches`);
-      return res.status(404).json({
+      return res.status(204).json({
         result: "No match found",
         exists: false,
         numMatches: numMatches,
