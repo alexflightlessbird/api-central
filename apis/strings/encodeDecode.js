@@ -11,7 +11,7 @@ const encodeDecode = async (req, res) => {
     }
 
     if (method == undefined) {
-      return res.status(400).json({ error: "Method must be be defined" });
+      return res.status(400).json({ error: "method must be be defined" });
     }
 
     if (string) {
