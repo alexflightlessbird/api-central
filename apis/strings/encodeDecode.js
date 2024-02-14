@@ -38,13 +38,13 @@ const encodeDecode = async (req, res) => {
           for (let i = 0; i < string_array.length; i++) {
             finalString.push(encodeURIComponent(string_array[i]));
           }
-          return res.status(200).json({ strings: finalString });
+          return res.status(200).json({ newString: finalString });
         case "decode" || "d":
           for (let i = 0; i < string_array.length; i++) {
             let tempString = string_array[i].replaceAll("%0A", "\\n");
             finalString.push(decodeURIComponent(tempString));
           }
-          return res.status(200).json({ strings: finalString });
+          return res.status(200).json({ newString: finalString });
         default:
           return res
             .status(400)

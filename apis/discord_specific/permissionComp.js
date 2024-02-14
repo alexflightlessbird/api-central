@@ -22,10 +22,7 @@ const permissionComp = async (req, res) => {
     const value2 = BigInt(req.query.value2);
 
     const result = permissionComparisons(value1, value2);
-    if (req.query.type === "emojis") {
-    } else {
-      return res.status(200).json(result);
-    }
+    return res.status(200).json({ permissions: result });
   } catch (err) {
     console.error("Error:", err);
     return res.status(500).json({ error: `${err}` });

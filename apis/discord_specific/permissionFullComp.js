@@ -60,7 +60,7 @@ const permissionComp = async (req, res) => {
 
     switch (req.query.type) {
       case "show_all":
-        return res.status(200).json(changes);
+        return res.status(200).json({ changes: changes });
       case "string":
         const trueChangesString = trueChanges.join(", ");
         return res.status(200).json({ changes: trueChangesString });
@@ -68,9 +68,9 @@ const permissionComp = async (req, res) => {
         const emojiChangesString = emojiChanges.join(", ");
         return res.status(200).json({ changes: emojiChangesString });
       case "emoji":
-        return res.status(200).josn(emojiChanges);
+        return res.status(200).josn({ changes: emojiChanges });
       default:
-        return res.status(200).json(trueChanges);
+        return res.status(200).json({ changes: trueChanges });
     }
   } catch (err) {
     console.error("Error:", err);

@@ -23,7 +23,7 @@ const permissionCalc = async (req, res) => {
 
     switch (req.query.type) {
       case "show_all":
-        return res.status(200).json(result);
+        return res.status(200).json({ permissions: result });
       case "string":
         const truePermsString = truePerms.join(", ");
         return res.status(200).json({ permissions: truePermsString });
@@ -31,9 +31,9 @@ const permissionCalc = async (req, res) => {
         const emojiPermsString = emojiPerms.join(", ");
         return res.status(200).json({ permissions: emojiPermsString });
       case "emoji":
-        return res.status(200).json(emojiPerms);
+        return res.status(200).json({ permissions: emojiPerms });
       default:
-        return res.status(200).json(truePerms);
+        return res.status(200).json({ permissions: truePerms });
     }
   } catch (err) {
     console.error("Error:", err);
