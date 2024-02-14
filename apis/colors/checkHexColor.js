@@ -8,7 +8,10 @@ const checkHexColor = async (req, res) => {
     }
 
     if (isValidHexColor(hex)) {
-      return res.status(200).json({ hex_color: true });
+      return res.status(200).json({
+        hex_color: true,
+        colorUrl: `https://color-hex.org/color/${hex}`,
+      });
     } else {
       return res.status(200).json({ hex_color: false });
     }
