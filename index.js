@@ -3,6 +3,9 @@ require("dotenv").config();
 const port = process.env.PORT;
 const lockedPath = process.env.LOCKED_PATH; // endpoints with this path are available only for internal use
 
+const swaggerui = require("swagger-ui-express");
+const YAML = require("yamljs");
+
 async function Init() {
   const app = express();
 
@@ -61,6 +64,7 @@ async function Init() {
   app.get("/permission-comp", permissionComp);
   app.get("/permission-comp/full", permissionFullComp);
 
+  const swaggerDoc = YAML.load("./config/docs.yaml");
   app.use(function (req, res, next) {
     if (!app.path(req, res)) {
       return res.status(404).json({ error: "This endpoint doesn't exist" });

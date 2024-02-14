@@ -1,0 +1,954 @@
+openapi: 3.0.1
+info:
+  title: API-Central
+  version: 1.0.0
+  description: >-
+    A variety of publicly available APIs
+
+
+    If any errors or bugs are found, DM me on Discord `@www.flightlessbird`
+
+
+    This project is open-source and the source code can always be found at its
+    [GitHub Repository](https://github.com/alexflightlessbird/api-central).
+
+
+    Please note that apis not on this page are not available for public use, but
+    may be forked from the GitHub code at your convenience, with appropriate
+    credit attached if made public.
+  contact:
+    email: alexflightlessbird@gmail.com
+    name: Alex X
+paths:
+  /progress-bar:
+    summary: Generate a customized progress bar
+    description: This endpoint will generate a PNG of a progress bar based on inputs
+    get:
+      summary: Generate a customized progress bar
+      description: This endpoint will generate a PNG of a progress bar based on inputs
+      operationId: get_progress-bar
+      parameters:
+        - name: val
+          in: query
+          description: The current value (how much is done)
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+            example: 10
+        - name: maxval
+          in: query
+          description: The max value (what is 100%?)
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            example: 100
+        - name: bgcolor
+          in: query
+          description: >-
+            Color of the background behind bar (must be a hex code - don't
+            include the #)
+
+
+            *Default value if not included:* transparent
+          required: false
+          schema:
+            type: string
+            example: CA054D
+        - name: barcolor
+          in: query
+          description: >-
+            Color of the progress bar - section that isn't completed yet (must
+            be a hex code - don't include the #)
+
+
+            *Default value if not included:* C8C6D7
+          required: false
+          schema:
+            type: string
+            example: C8C6D7
+        - name: fillcolor
+          in: query
+          description: >-
+            Color of the progress bar - section that is completed (must be a hex
+            code - don't include the #)
+
+
+            *Default value if not included:* 005CE7
+          required: false
+          schema:
+            type: string
+            example: 005CE7
+        - name: showval
+          in: query
+          description: |-
+            Show val on the progress bar
+
+            *Default value if not included:* false
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: showpercent
+          in: query
+          description: |-
+            Show percent complete on the progress bar
+
+            If showval is true, this will always be false
+
+            *Default value if not included:* false
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: fontcolor
+          in: query
+          description: >-
+            Color for either showval or showpercent when percent completed is
+            less than 80% (must be a hex code - don't include the #)
+
+
+            *Default value if not included:* 07004d
+          required: false
+          schema:
+            type: string
+            example: 07004D
+        - name: fontcolor1
+          in: query
+          description: >-
+            Color for either showval or showpercent when percent completed is
+            greater than or equal to 80% (must be a hex code - don't include the
+            #)
+
+
+            *Default value if not included:* C8C6D7
+          required: false
+          schema:
+            type: string
+            example: C8C6D7
+        - name: grad
+          in: query
+          description: |-
+            Toggle whether gradient is on or off
+
+            *Default value if not included:* false
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: gradcolor
+          in: query
+          description: >-
+            Color to fade the gradient to if grad is true (must be a hex code -
+            don't include the #)
+
+
+            *Default value if not included:* the calculated average between the
+            bar color and the fill color
+          required: false
+          schema:
+            type: string
+            example: CA054D
+      responses:
+        '200':
+          description: Image generated
+        '400':
+          description: Missing or incorrect values
+          content:
+            application/json:
+              examples:
+                Values not defined:
+                  value: '{"error":"Required values must be defined - maxval & val"}'
+                Values not numbers:
+                  value: '{"error":"maxval & val must be numbers"}'
+                Values not formatted correctly:
+                  value: >-
+                    {"error":"Required value val must be less than or equal to
+                    maxval"}
+                Hex codes incorrect:
+                  value: '{"error":"Please provide valid hex codes"}'
+        '500':
+          description: Internal server errors
+      tags:
+        - Canvas
+  /qrcode:
+    summary: Generate a QR code for a URL
+    description: This endpoint will generate a PNG of a QR code for a specified URL
+    get:
+      summary: Generate a QR code for a URL
+      description: This endpoint will generate a PNG of a QR code for a specified URL
+      operationId: get_qrcode
+      parameters:
+        - name: url
+          in: query
+          description: The URL to generate the QR code for
+          required: true
+          schema:
+            type: string
+            example: https://example.com/getting-a-qr-code
+        - name: size
+          in: query
+          description: |-
+            The size to make the canvas (it will always be a square)
+
+            *Default value if not included:* 500
+          required: false
+          schema:
+            type: integer
+            minimum: 100
+            maximum: 1000
+            example: 500
+      responses:
+        '200':
+          description: Image generated
+        '400':
+          description: Missing or incorrect values
+          content:
+            application/json:
+              example:
+                error: url is either invalid or missing
+        '500':
+          description: Internal server errors
+      tags:
+        - Canvas
+  /check-hex:
+    summary: Check if a value is a valid hex code
+    description: >-
+      This endpoint will return true if the value is a hex code or false if it
+      is not.
+
+
+      If it is a valid hex code, it will return the https://color-hex.org page
+      for it.
+    get:
+      summary: Check if a value is a valid hex code
+      description: >-
+        This endpoint will return true if the value is a hex code or false if it
+        is not.
+
+
+        If it is a valid hex code, it will return the https://color-hex.org page
+        for it.
+      operationId: get_check-hex
+      parameters:
+        - name: color
+          in: query
+          description: 'The hex code to test (don''t include the #)'
+          required: true
+          schema:
+            type: string
+            example: 005CE7
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              examples:
+                Is valid hex:
+                  value: >-
+                    {"hex_color":true,"colorURL":"https://color-hex.org/color/005ce7"}
+                Is not valid hex:
+                  value: '{"hex_color":false}'
+        '400':
+          description: Missing or incorrect values
+          content:
+            application/json:
+              example:
+                error: color must be defined
+        '500':
+          description: Internal server errors
+      tags:
+        - Colors
+  /random-hex:
+    summary: Generate a random hex code
+    description: This endpoint will generate a random hex code
+    get:
+      summary: Generate a random hex code
+      description: This endpoint will generate a random hex code
+      operationId: get_random-hex
+      responses:
+        '200':
+          description: Random hex code generated
+          content:
+            application/json:
+              example:
+                hexCode: 005ce7
+                colorUrl: https://color-hex.org/color/005ce7
+        '500':
+          description: Internal server errors
+      tags:
+        - Colors
+  /regex:
+    summary: Check a string for a regular expression
+    description: "This endpoint will return matched strings based on a regular expression input.\n\nTo verify regular expressions, use [https://regex101.com/](https://regex101.com/).\n\nEndpoint base code forked from [https://github.com/TheRealDax/multi-api/blob/main/endpoints/regex.js](https://github.com/TheRealDax/multi-api/blob/main/endpoints/regex.js)."
+    post:
+      summary: Check a string for a regular expression
+      description: "This endpoint will return matched strings based on a regular expression input.\n\nTo verify regular expressions, use [https://regex101.com/](https://regex101.com/).\n\nEndpoint base code forked from [https://github.com/TheRealDax/multi-api/blob/main/endpoints/regex.js](https://github.com/TheRealDax/multi-api/blob/main/endpoints/regex.js)."
+      operationId: post_regex
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - string
+                - regex
+              properties:
+                string:
+                  type: string
+                  description: The input string to match against
+                  example: Hello, world!
+                regex:
+                  type: string
+                  description: The regular expression to test
+                  example: '[A-Za-z]+'
+          application/json:
+            schema:
+              type: object
+              required:
+                - string
+                - regex
+              properties:
+                string:
+                  type: string
+                  description: The input string to match against
+                  example: Hello, world!
+                regex:
+                  type: string
+                  description: The regular expression to test
+                  example: '[A-Za-z]+'
+      responses:
+        '200':
+          description: Match found
+          content:
+            application/json:
+              example:
+                result:
+                  - match: Hello
+                    position: 0
+                    groups: []
+                  - match: world
+                    position: 7
+                    groups: []
+                exists: true
+                numMatches: 2
+        '204':
+          description: No match found
+          content:
+            application/json:
+              example:
+                result: No match found
+                exists: false
+                numMatches: 0
+        '400':
+          description: Missing or incorrect values
+          content:
+            application/json:
+              example:
+                error: Both string and regex must be defined
+        '500':
+          description: Internal server errors
+      tags:
+        - Strings
+  /encode-decode:
+    summary: Encode or decode text inputs
+    description: URI encode or decode text inputs.
+    post:
+      summary: Encode or decode text inputs
+      description: URI encode or decode text inputs.
+      operationId: post_encode-decode
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - method
+              properties:
+                string:
+                  type: string
+                  description: |-
+                    The input string to encode or decode
+        
+                    Either this or string_array must be defined
+                  example: Banana boat testing
+                string_array:
+                  type: array
+                  items:
+                    type: string
+                  description: |-
+                    The input array of strings to encode or decode
+        
+                    Either this or string must be defined
+                  example:
+                    - Banana boat testing
+                    - Example of encoding strings!
+                method:
+                  type: string
+                  description: Choose whether to encode or decode the input
+                  enum:
+                    - encode
+                    - e
+                    - decode
+                    - d
+                  example: encode
+          application/json:
+            schema:
+              type: object
+              required:
+                - method
+              properties:
+                string:
+                  type: string
+                  description: |-
+                    The input string to encode or decode
+        
+                    Either this or string_array must be defined
+                  example: Banana boat testing
+                string_array:
+                  type: array
+                  items:
+                    type: string
+                  description: |-
+                    The input array of strings to encode or decode
+        
+                    Either this or string must be defined
+                  example:
+                    - Banana boat testing
+                    - Example of encoding strings!
+                method:
+                  type: string
+                  description: Choose whether to encode or decode the input
+                  enum:
+                    - encode
+                    - e
+                    - decode
+                    - d
+                  example: encode
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              examples:
+                Encode - string input:
+                  value: '{"newString":"Banana%20boat%20testing"}'
+                Encode - string_array input:
+                  value: >-
+                    {"newString":["Banana%20boat%20testing","Example%20of%20encoded%20strings%21"]}
+                Decode - string input:
+                  value: '{"newString":"Banana boat testing"}'
+                Decode - string_array input:
+                  value: >-
+                    {"newString":["Banana boat testing","Example of encoded
+                    strings!"]}
+        '400':
+          description: Missing or incorrect values
+          content:
+            application/json:
+              examples:
+                String and string_array not defined:
+                  value: '{"error":"Either string or string_array must be defined"}'
+                Method not defined:
+                  value: '{"error":"method must be defined"}'
+                Invalid input for method:
+                  value: '{"error":"method must be either encode (e) or decode (d)"}'
+        '500':
+          description: Internal server errors
+      tags:
+        - Strings
+  /replace:
+    summary: Replace parts of a string with a specified value
+    description: >-
+      This endpoint will return a modified string with replaced values based on
+      the inputs.
+    post:
+      summary: Replace parts of a string with a specified value
+      description: >-
+        This endpoint will return a modified string with replaced values based
+        on the inputs.
+      operationId: post_replace
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - string
+                - whatToReplace
+                - replaceValue
+              properties:
+                string:
+                  type: string
+                  description: The original string
+                  example: String without replaced values
+                whatToReplace:
+                  type: string
+                  description: What to replace from the original string
+                  example: without
+                replaceValue:
+                  type: string
+                  description: What to replace whatToReplace with
+                  example: with
+          application/json:
+            schema:
+              type: object
+              required:
+                - string
+                - whatToReplace
+                - replaceValue
+              properties:
+                string:
+                  type: string
+                  description: The original string
+                  example: String without replaced values
+                whatToReplace:
+                  type: string
+                  description: What to replace from the original string
+                  example: without
+                replaceValue:
+                  type: string
+                  description: What to replace whatToReplace with
+                  example: with
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              example:
+                newString: String with replaced values
+        '400':
+          description: Missing or incorrect values
+          content:
+            application/json:
+              example:
+                error: >-
+                  All values must be defined - string, whatToReplace,
+                  replaceValue
+        '500':
+          description: Internal server errors
+      tags:
+        - Strings
+  /array-sort:
+    summary: Sort an array
+    description: >-
+      This endpoint will sort an input array in numerical/alphabetical order or
+      reverse numerical/alphabetical order.
+    post:
+      summary: Sort an array
+      description: >-
+        This endpoint will sort an input array in numerical/alphabetical order
+        or reverse numerical/alphabetical order.
+      operationId: post_array-sort
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - inputArray
+              properties:
+                inputArray:
+                  type: array
+                  items:
+                    type: string
+                  description: The input array to sort
+                  example:
+                    - apples
+                    - 12
+                    - 1
+                    - 32
+                    - oranges
+                sortOrder:
+                  type: string
+                  enum:
+                    - alphabetical
+                    - reverse
+                  example: alphabetical
+          application/json:
+            schema:
+              type: object
+              required:
+                - inputArray
+              properties:
+                inputArray:
+                  type: array
+                  items:
+                    type: string
+                  description: The input array to sort
+                  example:
+                    - apples
+                    - 12
+                    - 1
+                    - 32
+                    - oranges
+                sortOrder:
+                  type: string
+                  enum:
+                    - alphabetical
+                    - reverse
+                  example: alphabetical
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              examples:
+                Alphabetical with both strings and numbers:
+                  value: >-
+                    {"array":[1,12,32,"apples","oranges"],"string":"1, 12, 32,
+                    apples,
+                    oranges","numbersArray":[1,12,32],"numbersLength":3,"numbersString":"1,
+                    12,
+                    32","textArray":["apples","oranges"],"textLength":2,"textString":"apples,
+                    oranges"}
+                Reverse with both strings and numbers:
+                  value: >-
+                    {"array":[32,12,1,"oranges","apples"],"string":"32, 12, 1,
+                    oranges,
+                    apples","numbersArray":[32,12,1],"numbersLength":3,"numbersString":"32,
+                    12,
+                    1","textArray":["oranges","apples"],"textLength":2,"textString":"oranges,
+                    apples"}
+                Alphabetical with only strings:
+                  value: >-
+                    {"array":["apples","kiwi","oranges"],"string":"apples, kiwi,
+                    oranges","numbersArray":[],"numbersLength":0,"numbersString":"","textArray":["apples","kiwi","oranges"],"textLength":3,"textString":"apples,
+                    kiwi, oranges"}
+                Reverse with only numbers:
+                  value: >-
+                    {"array":[400,12,6,1],"string":"400, 12, 6,
+                    1","numbersArray":[400,12,6,1],"numbersLength":4,"numbersString":"400,
+                    12, 6, 1","textArray":[],"textLength":0,"textString":""}
+        '400':
+          description: Missing or incorrect values
+          content:
+            application/json:
+              examples:
+                inputArray missing:
+                  value: '{"error":"inputArray must be defined"}'
+                inputArray isn't an array:
+                  value: '{"error":"inputArray must be an array of values"}'
+                Invalid input for sortOrder:
+                  value: '{"error":"sortOrder must be either alphabetical or reverse"}'
+        '500':
+          description: Internal server errors
+      tags:
+        - Strings
+  /permission-calc:
+    summary: Calculate permissions values for Discord
+    description: >-
+      This endpoint will return the associated permissions with the input
+      permission flag field.
+    get:
+      summary: Calculate permissions values for Discord
+      description: >-
+        This endpoint will return the associated permissions with the input
+        permission flag field.
+      operationId: get_permission-calc
+      parameters:
+        - name: value
+          in: query
+          description: The permission value to evaluate
+          required: true
+          schema:
+            type: string
+            example: '86436216832'
+        - name: emoji
+          in: query
+          description: |-
+            If using one of the emoji options for type, include the emoji here
+
+            Can be either the unicode emoji or a Discord emoji ID
+          required: false
+          schema:
+            type: string
+            example: ':white_check_mark:'
+        - name: type
+          in: query
+          description: >-
+            The type of permission set to return
+
+
+            The default if not included is an array of the permissions that are
+            true for value
+          required: false
+          schema:
+            type: string
+            enum:
+              - show_all
+              - string
+              - emojistring
+              - emoji
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              examples:
+                default:
+                  value: >-
+                    {"permissions":["Manage Webhooks","Create Private
+                    Threads","Manage Threads"]}
+                show_all:
+                  value: >-
+                    {"permissions":{"Administrator": false,"View Audit Log":
+                    false,"Manage Server": false,"Manage Roles": false,"Manage
+                    Channels": false,"Kick Members": false,"Ban Members":
+                    false,"Create Invite": false,"Change Nickname":
+                    false,"Manage Nicknames": false,"Manage Expressions":
+                    false,"Create Expressions": false,"Manage Webhooks":
+                    true,"View Channel": false,"Manage Events": false,"Create
+                    Events": false,"Moderate Members": false,"View Server
+                    Insights": false,"View Creator Monetization Insights":
+                    false,"Send Messages": false,"Create Public Threads":
+                    false,"Create Private Threads": true,"Send Messages in
+                    Threads": false,"Send TTS Messages": false,"Manage
+                    Messages": false,"Manage Threads": true,"Embed Links":
+                    false,"Attach Files": false,"Read Message History":
+                    false,"Mention Everyone and All Roles": false,"Use External
+                    Emojis": false,"Use External Stickers": false,"Add
+                    Reactions": false,"Use Slash Commands": false,"Use Embedded
+                    Activities": false,"Connect": false,"Speak": false,"Video":
+                    false,"Mute Members": false,"Deafen Members": false,"Move
+                    Members": false,"Use Voice Activity": false,"Priority
+                    Speaker": false,"Request to Speak": false,"Use Soundboard":
+                    false,"Use External Sounds": false}}
+                string:
+                  value: >-
+                    {"permissions":"Manage Webhooks, Create Private Threads,
+                    Manage Threads"}
+                emojistring:
+                  value: >-
+                    {"permissions":"Manage Webhooks: :white_check_mark:, Create
+                    Private Threads: :white_check_mark:, Manage Threads:
+                    :white_check_mark:"}
+                emoji:
+                  value: >-
+                    {"permissions":["Manage Webhooks:
+                    :white_check_mark:","Create Private Threads:
+                    :white_check_mark:","Manage Threads: :white_check_mark:"]}
+        '400':
+          description: Missing or incorrect values
+          content:
+            application/json:
+              examples:
+                value missing:
+                  value: '{"error":"value must be defined"}'
+                Invalid input for value:
+                  value: '{"error":"Invalid value. Must be a non-negative number."}'
+        '500':
+          description: Internal server errors
+      tags:
+        - Discord Specific
+  /permission-comp:
+    summary: Compare two Discord permission values
+    description: >-
+      This endpoint will return the differences between two input permission
+      flag fields.
+    get:
+      summary: Compare two Discord permission values
+      description: >-
+        This endpoint will return the differences between two input permission
+        flag fields.
+      operationId: get_permission-comp
+      parameters:
+        - name: value1
+          in: query
+          description: The first permission value to evaluate
+          required: true
+          schema:
+            type: string
+            example: '1024'
+        - name: value2
+          in: query
+          description: The second permission value to evaluate
+          required: true
+          schema:
+            type: string
+            example: '86436216832'
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              example:
+                permissions:
+                  Manage Webhooks:
+                    value1: false
+                    value2: true
+                  View Channel:
+                    value1: true
+                    value2: false
+                  Create Private Threads:
+                    value1: false
+                    value2: true
+                  Manage Threads:
+                    value1: false
+                    value2: true
+        '400':
+          description: Missing or incorrect values
+          content:
+            application/json:
+              examples:
+                value1 or value2 missing:
+                  value: '{"error":"value1 and value2 must be defined"}'
+                Invalid input for value1:
+                  value: '{"error":"Invalid value1. Must be a non-negative number."}'
+                Invalid input for value2:
+                  value: '{"error":"Invalid value2. Must be a non-negative number."}'
+        '500':
+          description: Internal server errors
+      tags:
+        - Discord Specific
+  /permission-comp/full:
+    summary: Compare old and new values for allow/deny Discord permission values
+    description: >-
+      This endpoint will evaluate and return the differences between four input
+      permission flag fields. Any inputs not included default to 0.
+    get:
+      summary: Compare old and new values for allow/deny Discord permission values
+      description: >-
+        This endpoint will evaluate and return the differences between four
+        input permission flag fields. Any inputs not included default to 0.
+      operationId: get_permission-comp_full
+      parameters:
+        - name: old_allow
+          in: query
+          description: |-
+            The old permission value for allowed permissions
+
+            *Default value if not included:* 0
+          required: false
+          schema:
+            type: string
+            example: '1049600'
+        - name: old_deny
+          in: query
+          description: |-
+            The old permission value for denied permissions
+
+            *Default value if not included:* 0
+          required: false
+          schema:
+            type: string
+            example: '0'
+        - name: new_allow
+          in: query
+          description: |-
+            The new permission value for allowed permissions
+
+            *Default value if not included:* 0
+          required: false
+          schema:
+            type: string
+            example: '22021120'
+        - name: new_deny
+          in: query
+          description: |-
+            The new permission value for denied permissions
+
+            *Default value if not included:* 0
+          required: false
+          schema:
+            type: string
+            example: 268435456
+        - name: type
+          in: query
+          description: >-
+            The type of permission set to return
+
+
+            The default if not included is an array of the permissions that are
+            true for value
+          required: false
+          schema:
+            type: string
+            enum:
+              - show_all
+              - string
+              - emojistring
+              - emoji
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              examples:
+                default:
+                  value: >-
+                    {"changes":["Manage Roles: neutral/deny","Mute Members:
+                    neutral/allow","Move Members: neutral/allow"]}
+                show_all:
+                  value: >-
+                    {"changes": {"Administrator": "no change","View Audit Log":
+                    "no change","Manage Server": "no change","Manage Roles":
+                    "neutral/deny","Manage Channels": "no change","Kick
+                    Members": "no change","Ban Members": "no change","Create
+                    Invite": "no change","Change Nickname": "no change","Manage
+                    Nicknames": "no change","Manage Expressions": "no
+                    change","Create Expressions": "no change","Manage Webhooks":
+                    "no change","View Channel": "no change","Manage Events": "no
+                    change","Create Events": "no change","Moderate Members": "no
+                    change","View Server Insights": "no change","View Creator
+                    Monetization Insights": "no change","Send Messages": "no
+                    change","Create Public Threads": "no change","Create Private
+                    Threads": "no change","Send Messages in Threads": "no
+                    change","Send TTS Messages": "no change","Manage Messages":
+                    "no change","Manage Threads": "no change","Embed Links": "no
+                    change","Attach Files": "no change","Read Message History":
+                    "no change","Mention Everyone and All Roles": "no
+                    change","Use External Emojis": "no change","Use External
+                    Stickers": "no change","Add Reactions": "no change","Use
+                    Slash Commands": "no change","Use Embedded Activities": "no
+                    change","Connect": "no change","Speak": "no change","Video":
+                    "no change","Mute Members": "neutral/allow","Deafen
+                    Members": "no change","Move Members": "neutral/allow","Use
+                    Voice Activity": "no change","Priority Speaker": "no
+                    change","Request to Speak": "no change","Use Soundboard":
+                    "no change","Use External Sounds": "no change"}}
+                string:
+                  value: >-
+                    {"changes":"Manage Roles: neutral/deny, Mute Members:
+                    neutral/allow, Move Members: neutral/allow"}
+                emojistring:
+                  value: >-
+                    {"changes":"Manage Roles: :white_large_square: ➜ :x:, Mute
+                    Members: :white_large_square: ➜ :white_check_mark:, Move
+                    Members: :white_large_square: ➜ :white_check_mark:"}
+                emoji:
+                  value: >-
+                    {"changes":["Manage Roles: :white_large_square: ➜ :x:","Mute
+                    Members: :white_large_square: ➜ :white_check_mark:","Move
+                    Members: :white_large_square: ➜ :white_check_mark"]}
+        '400':
+          description: Missing or incorrect values
+          content:
+            application/json:
+              examples:
+                Invalid input for old_allow:
+                  value: >-
+                    {"error":"Invalid old_allow. Must be a non-negative
+                    number."}
+                Invalid input for old_deny:
+                  value: '{"error":"Invalid old_deny. Must be a non-negative number."}'
+                Invalid input for new_allow:
+                  value: >-
+                    {"error":"Invalid new_allow. Must be a non-negative
+                    number."}
+                Invalid input for new_deny:
+                  value: '{"error":"Invalid new_deny. Must be a non-negative number."}'
+        '500':
+          description: Internal server errors
+      tags:
+        - Discord Specific
+tags:
+  - name: Canvas
+  - name: Colors
+  - name: Strings
+  - name: Discord Specific
