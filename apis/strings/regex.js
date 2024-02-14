@@ -36,7 +36,7 @@ const matchRegex = async (req, res) => {
       console.log(
         `String: \"${string}\" with regex \"${regex}\" found ${numMatches} matches`
       );
-      return res.json({
+      return res.status(200).json({
         result: responses,
         exists: true,
         numMatches: numMatches,
