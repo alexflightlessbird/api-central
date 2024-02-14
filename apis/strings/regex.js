@@ -2,12 +2,18 @@
 
 const matchRegex = async (req, res) => {
   try {
-    const { string, regex } = req.body;
-
-    if (string == undefined || regex == undefined) {
+    const { regex } = req.body;
+    if (req.body.string == undefined || regex == undefined) {
       return res
         .status(400)
         .json({ error: "Both string and regex must be defined" });
+    }
+
+    let string;
+    if (typeof req.body.string !== "string") {
+      string = req.body.string.toString();
+    } else if (typeof req.body.string === "string") {
+      string = req.body.string;
     }
 
     const regexObj = new RegExp(regex, "gm");

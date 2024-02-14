@@ -1,13 +1,18 @@
 const encodeDecode = async (req, res) => {
   try {
-    const { string, method, string_array } = req.body;
+    const { method, string_array } = req.body;
 
-    if (string == undefined) {
+    let string;
+    if (req.body.string == undefined) {
       if (string_array == undefined) {
         return res
           .status(400)
           .json({ error: `Either string or string_array must be defined` });
       }
+    } else if (typeof req.body.string !== "string") {
+      string = req.body.string.toString();
+    } else if (typeof req.body.string === "string") {
+      string = req.body.string;
     }
 
     if (method == undefined) {
