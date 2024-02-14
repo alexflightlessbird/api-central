@@ -6,7 +6,9 @@ info:
     A variety of publicly available APIs
 
 
-    If any errors or bugs are found, DM me on Discord `@www.flightlessbird`
+    If any errors or bugs are found, DM me on Discord `@www.flightlessbird`. 
+    Feel free to DM if you have ideas for additional endpoints as well! 
+    May be implemented on a case-by-case basis.
 
 
     This project is open-source and the source code can always be found at its
@@ -273,7 +275,7 @@ paths:
           content:
             application/json:
               example:
-                hexCode: 005ce7
+                hexCode: \#005ce7
                 colorUrl: https://color-hex.org/color/005ce7
         '500':
           description: Internal server errors

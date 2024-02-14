@@ -69,7 +69,10 @@ async function Init() {
 
   app.use(function (req, res, next) {
     if (!app.path(req, res)) {
-      return res.status(404).json({ error: "This endpoint doesn't exist" });
+      return res.status(404).json({
+        error:
+          "This endpoint doesn't exist. Please check https://www.api-central.xyz/docs for currently available endpoints.",
+      });
     } else {
       next();
     }
