@@ -3,6 +3,11 @@ const { createCanvas, loadImage } = require("canvas");
 const faceClaim = async (req, res) => {
   try {
     const { imageurl } = req.query;
+
+    if (!imageurl) {
+      return res.status(400).json({ error: "imageurl must be defined" });
+    }
+
     let charname;
     if (req.query.charname) {
       charname = decodeURIComponent(req.query.charname);
@@ -15,6 +20,7 @@ const faceClaim = async (req, res) => {
     } else {
       fcname = "";
     }
+
     const image = await loadImage(imageurl);
 
     const canvas = createCanvas(800, 300);
@@ -33,8 +39,9 @@ const faceClaim = async (req, res) => {
     context.drawImage(image, 0, 0, circleRadius * 2, circleRadius * 2);
     context.restore();
 
+    context.textBaseline = "middle";
     context.fillStyle = "red";
-    context.font = "20px Arial";
+    context.font = "36px EB Garamond";
     context.fillText(charname, circleRadius * 2 + 10, canvas.height / 2 + 10);
 
     res.writeHead(200, { "Content-Type": "image/png" });
