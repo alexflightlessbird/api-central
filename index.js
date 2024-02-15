@@ -13,7 +13,7 @@ async function Init() {
   app.use(express.urlencoded({ extended: true }));
 
   app.use((req, res, next) => {
-    if (req.path === "/health-check" || req.path.startsWith("/docs")) {
+    if (req.path === "/health-check" || req.path.startsWith("/docs") || req.path.startsWith(`${lockedPath}/docs`)) {
       return next();
     }
     //prettier-ignore

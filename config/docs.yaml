@@ -3,6 +3,9 @@ info:
   title: API-Central
   version: 1.0.0
   description: >-
+    **[ Base URL: https://www.api-central.xyz ]**
+
+
     A variety of publicly available APIs
 
 
@@ -953,7 +956,3 @@ tags:
   - name: Colors
   - name: Strings
   - name: Discord Specific
-servers:
-  - url: https://www.api-central.xyz
-    variables: {}
-    description: Base API URL
