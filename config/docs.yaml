@@ -458,6 +458,8 @@ paths:
                   value: '{"error":"method must be defined"}'
                 Invalid input for method:
                   value: '{"error":"method must be either encode (e) or decode (d)"}'
+                Invalid input for string_array:
+                  value: '{"error":"string_array must be an array"}'
         '500':
           description: Internal server errors
       tags:

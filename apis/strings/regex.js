@@ -2,8 +2,7 @@
 
 const matchRegex = async (req, res) => {
   try {
-    const { regex } = req.body;
-    let { string } = req.body;
+    let { string, regex } = req.body;
     if (string == undefined || regex == undefined) {
       return res
         .status(400)
@@ -12,6 +11,10 @@ const matchRegex = async (req, res) => {
 
     if (typeof string !== "string") {
       string = string.toString();
+    }
+
+    if (typeof regex !== "string") {
+      regex = regex.toString();
     }
 
     const regexObj = new RegExp(regex, "gm");

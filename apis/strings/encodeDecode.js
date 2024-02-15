@@ -9,6 +9,8 @@ const encodeDecode = async (req, res) => {
         return res
           .status(400)
           .json({ error: `Either string or string_array must be defined` });
+      } else if (!Array.isArray(string_array)) {
+        return res.status(400).json({ error: "string_array must be an array" });
       }
     } else if (typeof string !== "string") {
       string = string.toString();
