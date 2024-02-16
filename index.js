@@ -13,7 +13,11 @@ async function Init() {
   app.use(express.urlencoded({ extended: true }));
 
   app.use((req, res, next) => {
-    if (req.path === "/health-check" || req.path.startsWith("/docs") || req.path.startsWith(`${lockedPath}/docs`)) {
+    if (
+      req.path === "/health-check" ||
+      req.path.startsWith("/docs") ||
+      req.path.startsWith(`${lockedPath}/docs`)
+    ) {
       return next();
     }
     //prettier-ignore
@@ -40,6 +44,7 @@ async function Init() {
   const replaceText = require("./apis/strings/replace.js");
   const arraySort = require("./apis/strings/arraySort.js");
   // discord_specific endpoints
+  const idToTime = require("./apis/discord_specific/idToUnix.js");
   const permissionCalc = require("./apis/discord_specific/permissionCalc.js");
   const permissionComp = require("./apis/discord_specific/permissionComp.js");
   const permissionFullComp = require("./apis/discord_specific/permissionFullComp.js");
@@ -60,6 +65,7 @@ async function Init() {
   app.post("/replace", replaceText);
   app.post("/array-sort", arraySort);
   // discord_specific endpoints
+  app.get("/id-to-time", idToTime);
   app.get("/permission-calc", permissionCalc);
   app.get("/permission-comp", permissionComp);
   app.get("/permission-comp/full", permissionFullComp);

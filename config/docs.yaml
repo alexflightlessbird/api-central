@@ -249,7 +249,7 @@ paths:
               examples:
                 Is valid hex:
                   value: >-
-                    {"hex_color":true,"colorURL":"https://color-hex.org/color/005ce7"}
+                    {"hex_color":true,"colorURL":"https://color-hex.org/color/005CE7"}
                 Is not valid hex:
                   value: '{"hex_color":false}'
         '400':
@@ -275,8 +275,8 @@ paths:
           content:
             application/json:
               example:
-                hexCode: \#005ce7
-                colorUrl: https://color-hex.org/color/005ce7
+                hexCode: "#005CE7"
+                colorUrl: https://color-hex.org/color/005CE7
         '500':
           description: Internal server errors
       tags:
@@ -644,6 +644,42 @@ paths:
           description: Internal server errors
       tags:
         - Strings
+  /id-to-time:
+    summary: Get UTC and unix time for any Discord ID
+    description: This endpoint will return the UTC and unix time of creation for any Discord ID, including user, channel, server, messages, and more.
+    get:
+      summary: Get UTC and unix time for any Discord ID
+      description: This endpoint will return the UTC and unix time of creation for any Discord ID, including user, channel, server, messages, and more.
+      operationId: get_id-to-time
+      parameters:
+        - name: id
+          in: query
+          description: The Discord ID to evaluate
+          required: true
+          schema:
+            type: string
+            example: '1183714709707440148'
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              example:
+                {"UTCdate24": "2023-12-11, 10:19:39","UTCdate12": "2023-12-11, 10:19:39 AM","UTCdatefull": {"year": 2023,"month": 12,"date": 11,"hour": 10,"minute": 19,"seconds": 39},"unix": "1702289979"}
+        '400':
+          description: Missing or incorrect values
+          content:
+            application/json:
+              examples:
+                id missing:
+                  value: '{"error":"id must be defined"}'
+                Invalid input for id:
+                  value: '{"error":"Invalid id. Must be a non-negative number."}'
+        '500':
+          description: Internal server errors
+      tags:
+        - Discord Specific
+        - NEW!!
   /permission-calc:
     summary: Calculate permissions values for Discord
     description: >-
@@ -952,6 +988,7 @@ paths:
       tags:
         - Discord Specific
 tags:
+  - name: NEW!!
   - name: Canvas
   - name: Colors
   - name: Strings
