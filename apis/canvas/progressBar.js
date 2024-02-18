@@ -84,7 +84,7 @@ const progressBar = async (req, res) => {
     }
 
     const canvas = createCanvas(600, 100);
-    const context = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d");
 
     if (bgcolor) {
       if (!isValidHexColor(bgcolor)) {
@@ -92,32 +92,32 @@ const progressBar = async (req, res) => {
           .status(400)
           .json({ error: "Please provide valid hex codes" });
       } else {
-        context.fillStyle = `#${bgcolor}`;
-        context.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = `#${bgcolor}`;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
       }
     } else {
-      context.clearRect(0, 0, canvas.width, canvas.height);
-      context.globalCompositeOperation = "source-over";
-      context.fillStyle = `rgba(0, 0, 0, 0)`;
-      context.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.globalCompositeOperation = "source-over";
+      ctx.fillStyle = `rgba(0, 0, 0, 0)`;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
 
-    context.fillStyle = `#${bar}`;
-    context.fillRect(10, 10, canvas.width - 20, canvas.height - 20);
+    ctx.fillStyle = `#${bar}`;
+    ctx.fillRect(10, 10, canvas.width - 20, canvas.height - 20);
 
     const progressPercentage = (tval / tmax) * 100;
     const progressPercentFill =
       (progressPercentage / 100) * (canvas.width - 20);
 
     if (grad == "true") {
-      const grd = context.createLinearGradient(0, 0, progressPercentFill, 0);
+      const grd = ctx.createLinearGradient(0, 0, progressPercentFill, 0);
       grd.addColorStop(0, `#${fill}`);
       grd.addColorStop(1, `#${grdcol}`);
-      context.fillStyle = grd;
-      context.fillRect(10, 10, progressPercentFill, canvas.height - 20);
+      ctx.fillStyle = grd;
+      ctx.fillRect(10, 10, progressPercentFill, canvas.height - 20);
     } else {
-      context.fillStyle = `#${fill}`;
-      context.fillRect(10, 10, progressPercentFill, canvas.height - 20);
+      ctx.fillStyle = `#${fill}`;
+      ctx.fillRect(10, 10, progressPercentFill, canvas.height - 20);
     }
 
     let fontcol;
@@ -161,7 +161,7 @@ const progressBar = async (req, res) => {
           fontcol = "c8c6d7";
         }
 
-        let width = context.measureText(val).width;
+        let width = ctx.measureText(val).width;
         if (progressPercentage == 100) {
           position = progressPercentFill - 65 - width;
         } else {
@@ -171,9 +171,9 @@ const progressBar = async (req, res) => {
         position = 20 + progressPercentFill;
       }
 
-      context.font = "30px serif";
-      context.fillStyle = `#${fontcol}`;
-      context.fillText(str, position, 60);
+      ctx.font = "30px serif";
+      ctx.fillStyle = `#${fontcol}`;
+      ctx.fillText(str, position, 60);
     }
 
     res.status(200);

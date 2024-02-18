@@ -24,10 +24,10 @@ const qrCode = async (req, res) => {
     const qrCodeDataURL = await generateQRCode(url);
 
     const canvas = createCanvas(canvasSize, canvasSize);
-    const context = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d");
 
     const image = await loadImage(qrCodeDataURL);
-    context.drawImage(image, 0, 0, canvas.width, canvas.height);
+    ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
     const pngBuffer = canvas.toBuffer("image/png");
 

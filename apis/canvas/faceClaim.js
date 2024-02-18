@@ -24,25 +24,25 @@ const faceClaim = async (req, res) => {
     const image = await loadImage(imageurl);
 
     const canvas = createCanvas(800, 300);
-    const context = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d");
 
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    context.globalCompositeOperation = "source-over";
-    context.fillStyle = `rgba(0, 0, 0, 0)`;
-    context.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.globalCompositeOperation = "source-over";
+    ctx.fillStyle = `rgba(0, 0, 0, 0)`;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     const circleRadius = canvas.height / 2;
-    context.save();
-    context.beginPath();
-    context.arc(circleRadius, canvas.height / 2, circleRadius, 0, Math.PI * 2);
-    context.clip();
-    context.drawImage(image, 0, 0, circleRadius * 2, circleRadius * 2);
-    context.restore();
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(circleRadius, canvas.height / 2, circleRadius, 0, Math.PI * 2);
+    ctx.clip();
+    ctx.drawImage(image, 0, 0, circleRadius * 2, circleRadius * 2);
+    ctx.restore();
 
-    context.textBaseline = "middle";
-    context.fillStyle = "red";
-    context.font = "36px EB Garamond";
-    context.fillText(charname, circleRadius * 2 + 10, canvas.height / 2 + 10);
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = "red";
+    ctx.font = "36px EB Garamond";
+    ctx.fillText(charname, circleRadius * 2 + 10, canvas.height / 2 + 10);
 
     res.writeHead(200, { "Content-Type": "image/png" });
     canvas.createPNGStream().pipe(res);
