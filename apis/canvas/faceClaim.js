@@ -29,7 +29,7 @@ const faceClaim = async (req, res) => {
     if (req.query.charname) {
       charname = decodeURIComponent(req.query.charname);
     } else {
-      charname = "";
+      return res.status(400).json({ error: "charname must be defined" });
     }
     if (req.query.charnamecolor) {
       if (!isValidHexColor(req.query.charnamecolor)) {
@@ -61,6 +61,13 @@ const faceClaim = async (req, res) => {
     }
     if (req.query.usercolor) {
       if (!isValidHexColor(req.query.usercolor)) {
+        //prettier-ignore
+        return res.status(400).json({ error: "Please provide valid hex codes" });
+      }
+    }
+
+    if (req.query.starcolor) {
+      if (!isValidHexColor(req.query.starcolor)) {
         //prettier-ignore
         return res.status(400).json({ error: "Please provide valid hex codes" });
       }
@@ -135,11 +142,17 @@ const faceClaim = async (req, res) => {
     const centerOfRight = circleRadius * 2 + 20 + width / 2;
 
     // dashed line
-    const starLine = "✭⭒⭒⭒✭⭒⭒⭒✭⭒⭒⭒✭⭒⭒⭒✭⭒⭒⭒✭⭒⭒⭒✭⭒⭒⭒✭⭒⭒⭒✭⭒⭒⭒✭⭒⭒⭒✭⭒⭒⭒✭⭒⭒⭒✭";
+    const starLine = "✭⭑⭑⭑✭⭑⭑⭑✭⭑⭑⭑✭⭑⭑⭑✭⭑⭑⭑✭⭑⭑⭑✭⭑⭑⭑✭⭑⭑⭑✭⭑⭑⭑✭⭑⭑⭑✭⭑⭑⭑✭⭑⭑⭑✭";
+    let starFontColor;
+    if (!req.query.starcolor) {
+      starFontColor = `#${imageColor}`;
+    } else {
+      starFontColor = `#${req.query.starcolor}`;
+    }
     ctx.textAlign = "center";
     ctx.font = "15px Noto Sans Symbols 2";
     ctx.textBaseline = "middle";
-    ctx.fillStyle = `#${imageColor}`;
+    ctx.fillStyle = starFontColor;
     ctx.fillText(starLine, centerOfRight, canvas.height / 2);
 
     // character name
