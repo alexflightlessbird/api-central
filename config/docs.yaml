@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: API-Central
-  version: 1.0.0
+  version: 1.0.1
   description: >-
     **[ Base URL: https://www.api-central.xyz ]**
 
@@ -317,13 +317,17 @@ paths:
           description: Internal server errors
       tags:
         - Colors
-  /regex:
-    summary: Check a string for a regular expression
-    description: "This endpoint will return matched strings based on a regular expression input.\n\nTo verify regular expressions, use [https://regex101.com/](https://regex101.com/).\n\nEndpoint base code forked from [https://github.com/TheRealDax/multi-api/blob/main/endpoints/regex.js](https://github.com/TheRealDax/multi-api/blob/main/endpoints/regex.js)."
+  /array-sort:
+    summary: Sort an array
+    description: >-
+      This endpoint will sort an input array in numerical/alphabetical order or
+      reverse numerical/alphabetical order.
     post:
-      summary: Check a string for a regular expression
-      description: "This endpoint will return matched strings based on a regular expression input.\n\nTo verify regular expressions, use [https://regex101.com/](https://regex101.com/).\n\nEndpoint base code forked from [https://github.com/TheRealDax/multi-api/blob/main/endpoints/regex.js](https://github.com/TheRealDax/multi-api/blob/main/endpoints/regex.js)."
-      operationId: post_regex
+      summary: Sort an array
+      description: >-
+        This endpoint will sort an input array in numerical/alphabetical order
+        or reverse numerical/alphabetical order.
+      operationId: post_array-sort
       requestBody:
         required: true
         content:
@@ -331,61 +335,91 @@ paths:
             schema:
               type: object
               required:
-                - string
-                - regex
+                - inputArray
               properties:
-                string:
+                inputArray:
+                  type: array
+                  items:
+                    type: string
+                  description: The input array to sort
+                  example:
+                    - apples
+                    - 12
+                    - 1
+                    - 32
+                    - oranges
+                sortOrder:
                   type: string
-                  description: The input string to match against
-                  example: Hello, world!
-                regex:
-                  type: string
-                  description: The regular expression to test
-                  example: '[A-Za-z]+'
+                  enum:
+                    - alphabetical
+                    - reverse
+                  example: alphabetical
           application/json:
             schema:
               type: object
               required:
-                - string
-                - regex
+                - inputArray
               properties:
-                string:
+                inputArray:
+                  type: array
+                  items:
+                    type: string
+                  description: The input array to sort
+                  example:
+                    - apples
+                    - 12
+                    - 1
+                    - 32
+                    - oranges
+                sortOrder:
                   type: string
-                  description: The input string to match against
-                  example: Hello, world!
-                regex:
-                  type: string
-                  description: The regular expression to test
-                  example: '[A-Za-z]+'
+                  enum:
+                    - alphabetical
+                    - reverse
+                  example: alphabetical
       responses:
         '200':
-          description: Match found
+          description: Successful request
           content:
             application/json:
-              example:
-                result:
-                  - match: Hello
-                    position: 0
-                    groups: []
-                  - match: world
-                    position: 7
-                    groups: []
-                exists: true
-                numMatches: 2
-        '204':
-          description: No match found
-          content:
-            application/json:
-              example:
-                result: No match found
-                exists: false
-                numMatches: 0
+              examples:
+                Alphabetical with both strings and numbers:
+                  value: >-
+                    {"array":[1,12,32,"apples","oranges"],"string":"1, 12, 32,
+                    apples,
+                    oranges","numbersArray":[1,12,32],"numbersLength":3,"numbersString":"1,
+                    12,
+                    32","textArray":["apples","oranges"],"textLength":2,"textString":"apples,
+                    oranges"}
+                Reverse with both strings and numbers:
+                  value: >-
+                    {"array":[32,12,1,"oranges","apples"],"string":"32, 12, 1,
+                    oranges,
+                    apples","numbersArray":[32,12,1],"numbersLength":3,"numbersString":"32,
+                    12,
+                    1","textArray":["oranges","apples"],"textLength":2,"textString":"oranges,
+                    apples"}
+                Alphabetical with only strings:
+                  value: >-
+                    {"array":["apples","kiwi","oranges"],"string":"apples, kiwi,
+                    oranges","numbersArray":[],"numbersLength":0,"numbersString":"","textArray":["apples","kiwi","oranges"],"textLength":3,"textString":"apples,
+                    kiwi, oranges"}
+                Reverse with only numbers:
+                  value: >-
+                    {"array":[400,12,6,1],"string":"400, 12, 6,
+                    1","numbersArray":[400,12,6,1],"numbersLength":4,"numbersString":"400,
+                    12, 6, 1","textArray":[],"textLength":0,"textString":""}
         '400':
           description: Missing or incorrect values
           content:
             application/json:
-              example:
-                error: Both string and regex must be defined
+              examples:
+                inputArray missing:
+                  value: '{"error":"inputArray must be defined"}'
+                inputArray isn't an array:
+                  value: '{"error":"inputArray must be an array of values"}'
+                Invalid input for sortOrder:
+                  value: '{"error":"sortOrder must be either alphabetical or reverse"}'
         '500':
           description: Internal server errors
       tags:
@@ -500,6 +534,79 @@ paths:
           description: Internal server errors
       tags:
         - Strings
+  /regex:
+    summary: Check a string for a regular expression
+    description: "This endpoint will return matched strings based on a regular expression input.\n\nTo verify regular expressions, use [https://regex101.com/](https://regex101.com/).\n\nEndpoint base code forked from [https://github.com/TheRealDax/multi-api/blob/main/endpoints/regex.js](https://github.com/TheRealDax/multi-api/blob/main/endpoints/regex.js)."
+    post:
+      summary: Check a string for a regular expression
+      description: "This endpoint will return matched strings based on a regular expression input.\n\nTo verify regular expressions, use [https://regex101.com/](https://regex101.com/).\n\nEndpoint base code forked from [https://github.com/TheRealDax/multi-api/blob/main/endpoints/regex.js](https://github.com/TheRealDax/multi-api/blob/main/endpoints/regex.js)."
+      operationId: post_regex
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - string
+                - regex
+              properties:
+                string:
+                  type: string
+                  description: The input string to match against
+                  example: Hello, world!
+                regex:
+                  type: string
+                  description: The regular expression to test
+                  example: '[A-Za-z]+'
+          application/json:
+            schema:
+              type: object
+              required:
+                - string
+                - regex
+              properties:
+                string:
+                  type: string
+                  description: The input string to match against
+                  example: Hello, world!
+                regex:
+                  type: string
+                  description: The regular expression to test
+                  example: '[A-Za-z]+'
+      responses:
+        '200':
+          description: Match found
+          content:
+            application/json:
+              example:
+                result:
+                  - match: Hello
+                    position: 0
+                    groups: []
+                  - match: world
+                    position: 7
+                    groups: []
+                exists: true
+                numMatches: 2
+        '204':
+          description: No match found
+          content:
+            application/json:
+              example:
+                result: No match found
+                exists: false
+                numMatches: 0
+        '400':
+          description: Missing or incorrect values
+          content:
+            application/json:
+              example:
+                error: Both string and regex must be defined
+        '500':
+          description: Internal server errors
+      tags:
+        - Strings
   /replace:
     summary: Replace parts of a string with a specified value
     description: >-
@@ -569,113 +676,6 @@ paths:
                 error: >-
                   All values must be defined - string, whatToReplace,
                   replaceValue
-        '500':
-          description: Internal server errors
-      tags:
-        - Strings
-  /array-sort:
-    summary: Sort an array
-    description: >-
-      This endpoint will sort an input array in numerical/alphabetical order or
-      reverse numerical/alphabetical order.
-    post:
-      summary: Sort an array
-      description: >-
-        This endpoint will sort an input array in numerical/alphabetical order
-        or reverse numerical/alphabetical order.
-      operationId: post_array-sort
-      requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              required:
-                - inputArray
-              properties:
-                inputArray:
-                  type: array
-                  items:
-                    type: string
-                  description: The input array to sort
-                  example:
-                    - apples
-                    - 12
-                    - 1
-                    - 32
-                    - oranges
-                sortOrder:
-                  type: string
-                  enum:
-                    - alphabetical
-                    - reverse
-                  example: alphabetical
-          application/json:
-            schema:
-              type: object
-              required:
-                - inputArray
-              properties:
-                inputArray:
-                  type: array
-                  items:
-                    type: string
-                  description: The input array to sort
-                  example:
-                    - apples
-                    - 12
-                    - 1
-                    - 32
-                    - oranges
-                sortOrder:
-                  type: string
-                  enum:
-                    - alphabetical
-                    - reverse
-                  example: alphabetical
-      responses:
-        '200':
-          description: Successful request
-          content:
-            application/json:
-              examples:
-                Alphabetical with both strings and numbers:
-                  value: >-
-                    {"array":[1,12,32,"apples","oranges"],"string":"1, 12, 32,
-                    apples,
-                    oranges","numbersArray":[1,12,32],"numbersLength":3,"numbersString":"1,
-                    12,
-                    32","textArray":["apples","oranges"],"textLength":2,"textString":"apples,
-                    oranges"}
-                Reverse with both strings and numbers:
-                  value: >-
-                    {"array":[32,12,1,"oranges","apples"],"string":"32, 12, 1,
-                    oranges,
-                    apples","numbersArray":[32,12,1],"numbersLength":3,"numbersString":"32,
-                    12,
-                    1","textArray":["oranges","apples"],"textLength":2,"textString":"oranges,
-                    apples"}
-                Alphabetical with only strings:
-                  value: >-
-                    {"array":["apples","kiwi","oranges"],"string":"apples, kiwi,
-                    oranges","numbersArray":[],"numbersLength":0,"numbersString":"","textArray":["apples","kiwi","oranges"],"textLength":3,"textString":"apples,
-                    kiwi, oranges"}
-                Reverse with only numbers:
-                  value: >-
-                    {"array":[400,12,6,1],"string":"400, 12, 6,
-                    1","numbersArray":[400,12,6,1],"numbersLength":4,"numbersString":"400,
-                    12, 6, 1","textArray":[],"textLength":0,"textString":""}
-        '400':
-          description: Missing or incorrect values
-          content:
-            application/json:
-              examples:
-                inputArray missing:
-                  value: '{"error":"inputArray must be defined"}'
-                inputArray isn't an array:
-                  value: '{"error":"inputArray must be an array of values"}'
-                Invalid input for sortOrder:
-                  value: '{"error":"sortOrder must be either alphabetical or reverse"}'
         '500':
           description: Internal server errors
       tags:
