@@ -15,6 +15,7 @@ COPY . .
 
 COPY ./config/fonts/Oswald-SemiBold.otf /usr/share/fonts/
 COPY ./config/fonts/eb-garamond-latin-400-normal.ttf /usr/share/fonts/
+COPY ./config/fonts/seguisym.ttf usr/share/fonts/
 RUN fc-cache -f -v
 
 # Define the command to run your application
