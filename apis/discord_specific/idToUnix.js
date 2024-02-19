@@ -1,4 +1,4 @@
-const convertSnowflakeToDate = require("../../helper-functions/discord_specific/convertSnowflakeToDate");
+const convertSnowflakeToDate = require("../../helper_functions/discord_specific/convertSnowflakeToDate");
 
 const idToTime = async (req, res) => {
   try {

@@ -1,4 +1,4 @@
-const permissionComparisons = require("../../helper-functions/discord_specific/permissionComparisons");
+const permissionComparisons = require("../../helper_functions/discord_specific/permissionComparisons");
 
 const permissionComp = async (req, res) => {
   try {

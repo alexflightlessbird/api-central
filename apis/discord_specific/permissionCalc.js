@@ -1,4 +1,4 @@
-const permissionCalculations = require("../../helper-functions/discord_specific/permissionCalculations");
+const permissionCalculations = require("../../helper_functions/discord_specific/permissionCalculations");
 
 const permissionCalc = async (req, res) => {
   try {

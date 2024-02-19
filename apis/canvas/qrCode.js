@@ -1,6 +1,6 @@
 const { createCanvas, loadImage } = require("canvas");
-const generateQRCode = require("../../helper-functions/other/generateQRCode");
-const isValidURL = require("../../helper-functions/other/isValidURL");
+const generateQRCode = require("../../helper_functions/other/generateQRCode");
+const isValidURL = require("../../helper_functions/other/isValidURL");
 
 const qrCode = async (req, res) => {
   const { url, size } = req.query;

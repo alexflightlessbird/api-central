@@ -1,8 +1,8 @@
 const { createCanvas, loadImage } = require("canvas");
-const avgColorFromImage = require("../../helper-functions/colors/avgColorFromImage");
-const isValidHexColor = require("../../helper-functions/colors/isValidHexColor");
-const rgbToHex = require("../../helper-functions/colors/rgbToHex");
-const hexToRgb = require("../../helper-functions/colors/hexToRgb");
+const avgColorFromImage = require("../../helper_functions/colors/avgColorFromImage");
+const isValidHexColor = require("../../helper_functions/colors/isValidHexColor");
+const rgbToHex = require("../../helper_functions/colors/rgbToHex");
+const hexToRgb = require("../../helper_functions/colors/hexToRgb");
 const axios = require("axios");
 
 const faceClaim = async (req, res) => {

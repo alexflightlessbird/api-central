@@ -1,5 +1,5 @@
-const randomHexColor = require("../../helper-functions/colors/randomHexColor");
-const isValidHexColor = require("../../helper-functions/colors/isValidHexColor");
+const randomHexColor = require("../../helper_functions/colors/randomHexColor");
+const isValidHexColor = require("../../helper_functions/colors/isValidHexColor");
 
 const randomHex = async (req, res) => {
   try {

@@ -1,4 +1,4 @@
-const permissionChanges = require("../../helper-functions/discord_specific/permissionChanges");
+const permissionChanges = require("../../helper_functions/discord_specific/permissionChanges");
 
 const permissionComp = async (req, res) => {
   try {

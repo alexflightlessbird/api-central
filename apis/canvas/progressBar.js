@@ -1,8 +1,8 @@
 const { createCanvas } = require("canvas");
 
-const isValidHexColor = require("../../helper-functions/colors/isValidHexColor");
-const avgHexColor = require("../../helper-functions/colors/avgHexColor");
-const isNumber = require("../../helper-functions/numbers/isNumber");
+const isValidHexColor = require("../../helper_functions/colors/isValidHexColor");
+const avgHexColor = require("../../helper_functions/colors/avgHexColor");
+const isNumber = require("../../helper_functions/numbers/isNumber");
 
 const progressBar = async (req, res) => {
   try {

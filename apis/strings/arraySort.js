@@ -1,4 +1,4 @@
-const isNumber = require("../../helper-functions/numbers/isNumber");
+const isNumber = require("../../helper_functions/numbers/isNumber");
 
 const arraySort = async (req, res) => {
   try {

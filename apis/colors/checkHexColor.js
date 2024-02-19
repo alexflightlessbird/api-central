@@ -1,4 +1,4 @@
-const isValidHexColor = require("../../helper-functions/colors/isValidHexColor");
+const isValidHexColor = require("../../helper_functions/colors/isValidHexColor");
 
 const checkHexColor = async (req, res) => {
   try {

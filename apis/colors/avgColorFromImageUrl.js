@@ -1,5 +1,5 @@
-const avgColorFromImage = require("../../helper-functions/colors/avgColorFromImage");
-const rgbToHex = require("../../helper-functions/colors/rgbToHex");
+const avgColorFromImage = require("../../helper_functions/colors/avgColorFromImage");
+const rgbToHex = require("../../helper_functions/colors/rgbToHex");
 const { createCanvas, loadImage } = require("canvas");
 const axios = require("axios");
 
