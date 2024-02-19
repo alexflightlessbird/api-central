@@ -9,9 +9,9 @@ const randomHex = async (req, res) => {
     }
 
     return res.status(200).json({
-      hexCode: randomHexCode,
+      hexCode: `#${randomHexCode}`,
       //prettier-ignore
-      colorUrl: `https://color-hex.org/color/${randomHexCode.substring(1,randomHexCode.length)}`,
+      colorUrl: `https://color-hex.org/color/${randomHexCode}`,
     });
   } catch (err) {
     console.error("Error:", err);
