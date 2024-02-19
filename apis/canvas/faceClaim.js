@@ -34,6 +34,7 @@ const faceClaim = async (req, res) => {
     if (req.query.charnamecolor) {
       if (!isValidHexColor(req.query.charnamecolor)) {
         //prettier-ignore
+        return res.status(400).json({ error: "Please provide valid hex codes" });
       }
     }
 
