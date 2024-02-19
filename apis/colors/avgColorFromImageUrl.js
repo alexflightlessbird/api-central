@@ -30,7 +30,7 @@ const avgColorFromImageUrl = async (req, res) => {
     ctx.drawImage(image, 0, 0, image.width, image.height);
     const imageData = ctx.getImageData(0, 0, image.width, image.height).data;
     let imageColor = avgColorFromImage(imageData);
-    imageColor = rgbToHex(imageColor[0], imageColor[1], imageColor[2]);
+    imageColor = rgbToHex(imageColor[0], imageColor[1], imageColor[2]).toUpperCase();
 
     return res.json({
       color: `#${imageColor}`,

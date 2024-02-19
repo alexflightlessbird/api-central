@@ -2,7 +2,7 @@ const isValidHexColor = require("../../helper-functions/colors/isValidHexColor")
 
 const checkHexColor = async (req, res) => {
   try {
-    const hex = req.query.color;
+    const hex = req.query.color.toUpperCase();
     if (hex === undefined) {
       return res.status(400).json({ error: "color must be defined" });
     }
