@@ -185,10 +185,10 @@ const faceClaim = async (req, res) => {
 
     // user name
     let userFontColor;
-    if (!req.query.userfontcolor) {
+    if (!req.query.usercolor) {
       userFontColor = `#${imageColor}`;
     } else {
-      userFontColor = `#${req.query.userfontcolor}`;
+      userFontColor = `#${req.query.usercolor}`;
     }
     ctx.fillStyle = userFontColor;
     ctx.textBaseline = "middle";
