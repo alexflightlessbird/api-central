@@ -25,298 +25,6 @@ info:
     name: GPL-3.0
     url: https://www.gnu.org/licenses/gpl-3.0.en.html#license-text
 paths:
-  /progress-bar:
-    summary: Generate a customized progress bar
-    description: This endpoint will generate a PNG of a progress bar based on inputs
-    get:
-      summary: Generate a customized progress bar
-      description: This endpoint will generate a PNG of a progress bar based on inputs
-      operationId: get_progress-bar
-      parameters:
-        - name: val
-          in: query
-          description: The current value (how much is done)
-          required: true
-          schema:
-            type: integer
-            minimum: 0
-            example: 10
-        - name: maxval
-          in: query
-          description: The max value (what is 100%?)
-          required: true
-          schema:
-            type: integer
-            minimum: 1
-            example: 100
-        - name: bgcolor
-          in: query
-          description: >-
-            Color of the background behind bar (must be a hex code - don't
-            include the #)
-
-
-            *Default value if not included:* transparent
-          required: false
-          schema:
-            type: string
-            example: CA054D
-        - name: barcolor
-          in: query
-          description: >-
-            Color of the progress bar - section that isn't completed yet (must
-            be a hex code - don't include the #)
-
-
-            *Default value if not included:* C8C6D7
-          required: false
-          schema:
-            type: string
-            example: C8C6D7
-        - name: fillcolor
-          in: query
-          description: >-
-            Color of the progress bar - section that is completed (must be a hex
-            code - don't include the #)
-
-
-            *Default value if not included:* 005CE7
-          required: false
-          schema:
-            type: string
-            example: 005CE7
-        - name: showval
-          in: query
-          description: |-
-            Show val on the progress bar
-
-            *Default value if not included:* false
-          required: false
-          schema:
-            type: boolean
-        - name: showpercent
-          in: query
-          description: |-
-            Show percent complete on the progress bar
-
-            If showval is true, this will always be false
-
-            *Default value if not included:* false
-          required: false
-          schema:
-            type: boolean
-        - name: fontcolor
-          in: query
-          description: >-
-            Color for either showval or showpercent when percent completed is
-            less than 80% (must be a hex code - don't include the #)
-
-
-            *Default value if not included:* 07004d
-          required: false
-          schema:
-            type: string
-            example: 07004D
-        - name: fontcolor1
-          in: query
-          description: >-
-            Color for either showval or showpercent when percent completed is
-            greater than or equal to 80% (must be a hex code - don't include the
-            #)
-
-
-            *Default value if not included:* C8C6D7
-          required: false
-          schema:
-            type: string
-            example: C8C6D7
-        - name: grad
-          in: query
-          description: |-
-            Toggle whether gradient is on or off
-
-            *Default value if not included:* false
-          required: false
-          schema:
-            type: boolean
-        - name: gradcolor
-          in: query
-          description: >-
-            Color to fade the gradient to if grad is true (must be a hex code -
-            don't include the #)
-
-
-            *Default value if not included:* the calculated average between the
-            bar color and the fill color
-          required: false
-          schema:
-            type: string
-            example: CA054D
-      responses:
-        '200':
-          description: Image generated
-        '400':
-          description: Missing or incorrect values
-          content:
-            application/json:
-              examples:
-                Values not defined:
-                  value: '{"error":"Required values must be defined - maxval & val"}'
-                Values not numbers:
-                  value: '{"error":"maxval & val must be numbers"}'
-                Values not formatted correctly:
-                  value: >-
-                    {"error":"Required value val must be less than or equal to
-                    maxval"}
-                Hex codes incorrect:
-                  value: '{"error":"Please provide valid hex codes"}'
-        '500':
-          description: Internal server errors
-      tags:
-        - Canvas
-  /qrcode:
-    summary: Generate a QR code for a URL
-    description: This endpoint will generate a PNG of a QR code for a specified URL
-    get:
-      summary: Generate a QR code for a URL
-      description: This endpoint will generate a PNG of a QR code for a specified URL
-      operationId: get_qrcode
-      parameters:
-        - name: url
-          in: query
-          description: The URL to generate the QR code for
-          required: true
-          schema:
-            type: string
-            example: https://example.com/getting-a-qr-code
-        - name: size
-          in: query
-          description: |-
-            The size to make the canvas (it will always be a square)
-
-            *Default value if not included:* 500
-          required: false
-          schema:
-            type: integer
-            minimum: 100
-            maximum: 1000
-            example: 500
-      responses:
-        '200':
-          description: Image generated
-        '400':
-          description: Missing or incorrect values
-          content:
-            application/json:
-              example:
-                error: url is either invalid or missing
-        '500':
-          description: Internal server errors
-      tags:
-        - Canvas
-  /avg-color:
-    summary: Get average pixel color from an image URL
-    description: This endpoint will calculate the average pixel color from an inputted image URL
-    get:
-      summary: Get average pixel color from an image URL
-      description: This endpoint will calculate the average pixel color from an inputted image URL
-      operationId: get_avg-color
-      parameters:
-        - name: imageurl
-          in: query
-          description: 'The image URL to calculate from'
-          required: true
-          schema:
-            type: string
-            example: "https://images.unsplash.com/photo-1708242124912-ca576feddd90?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-      responses:
-        '200':
-          description: Successful request
-          content:
-            application/json:
-              example:
-                {"color":"#380B08", "colorUrl":"https://color-hex.org/color/380B08"}
-        '400':
-          description: Missing or incorrect values
-          content:
-            application/json:
-              examples:
-                imageurl not defined:
-                  value: '{"error":"imageurl must be defined"}'
-                imageurl invalid:
-                  value: '{"error":"imageurl must point to an image"}'
-        '500':
-          description: Internal server errors
-      tags:
-        - NEW!!
-        - Colors
-  /check-hex:
-    summary: Check if a value is a valid hex code
-    description: >-
-      This endpoint will return true if the value is a hex code or false if it
-      is not.
-
-
-      If it is a valid hex code, it will return the https://color-hex.org page
-      for it.
-    get:
-      summary: Check if a value is a valid hex code
-      description: >-
-        This endpoint will return true if the value is a hex code or false if it
-        is not.
-
-
-        If it is a valid hex code, it will return the https://color-hex.org page
-        for it.
-      operationId: get_check-hex
-      parameters:
-        - name: color
-          in: query
-          description: 'The hex code to test (don''t include the #)'
-          required: true
-          schema:
-            type: string
-            example: 005CE7
-      responses:
-        '200':
-          description: Successful request
-          content:
-            application/json:
-              examples:
-                Is valid hex:
-                  value: >-
-                    {"hex_color":true,"colorURL":"https://color-hex.org/color/005CE7"}
-                Is not valid hex:
-                  value: '{"hex_color":false}'
-        '400':
-          description: Missing or incorrect values
-          content:
-            application/json:
-              example:
-                error: color must be defined
-        '500':
-          description: Internal server errors
-      tags:
-        - Colors
-  /random-hex:
-    summary: Generate a random hex code
-    description: This endpoint will generate a random hex code
-    get:
-      summary: Generate a random hex code
-      description: This endpoint will generate a random hex code
-      operationId: get_random-hex
-      responses:
-        '200':
-          description: Random hex code generated
-          content:
-            application/json:
-              example:
-                hexCode: "#005CE7"
-                colorUrl: https://color-hex.org/color/005CE7
-        '500':
-          description: Internal server errors
-      tags:
-        - Colors
   /array-sort:
     summary: Sort an array
     description: >-
@@ -424,6 +132,90 @@ paths:
           description: Internal server errors
       tags:
         - Strings
+  /avg-color:
+    summary: Get average pixel color from an image URL
+    description: This endpoint will calculate the average pixel color from an inputted image URL
+    get:
+      summary: Get average pixel color from an image URL
+      description: This endpoint will calculate the average pixel color from an inputted image URL
+      operationId: get_avg-color
+      parameters:
+        - name: imageurl
+          in: query
+          description: 'The image URL to calculate from'
+          required: true
+          schema:
+            type: string
+            example: "https://images.unsplash.com/photo-1708242124912-ca576feddd90?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              example:
+                {"color":"#380B08", "colorUrl":"https://color-hex.org/color/380B08"}
+        '400':
+          description: Missing or incorrect values
+          content:
+            application/json:
+              examples:
+                imageurl not defined:
+                  value: '{"error":"imageurl must be defined"}'
+                imageurl invalid:
+                  value: '{"error":"imageurl must point to an image"}'
+        '500':
+          description: Internal server errors
+      tags:
+        - NEW!!
+        - Colors
+  /check-hex:
+    summary: Check if a value is a valid hex code
+    description: >-
+      This endpoint will return true if the value is a hex code or false if it
+      is not.
+
+
+      If it is a valid hex code, it will return the https://color-hex.org page
+      for it.
+    get:
+      summary: Check if a value is a valid hex code
+      description: >-
+        This endpoint will return true if the value is a hex code or false if it
+        is not.
+
+
+        If it is a valid hex code, it will return the https://color-hex.org page
+        for it.
+      operationId: get_check-hex
+      parameters:
+        - name: color
+          in: query
+          description: 'The hex code to test (don''t include the #)'
+          required: true
+          schema:
+            type: string
+            example: 005CE7
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              examples:
+                Is valid hex:
+                  value: >-
+                    {"hex_color":true,"colorURL":"https://color-hex.org/color/005CE7"}
+                Is not valid hex:
+                  value: '{"hex_color":false}'
+        '400':
+          description: Missing or incorrect values
+          content:
+            application/json:
+              example:
+                error: color must be defined
+        '500':
+          description: Internal server errors
+      tags:
+        - Colors
   /encode-decode:
     summary: Encode or decode text inputs
     description: URI encode or decode text inputs.
@@ -530,152 +322,6 @@ paths:
                   value: '{"error":"method must be either encode (e) or decode (d)"}'
                 Invalid input for string_array:
                   value: '{"error":"string_array must be an array"}'
-        '500':
-          description: Internal server errors
-      tags:
-        - Strings
-  /regex:
-    summary: Check a string for a regular expression
-    description: "This endpoint will return matched strings based on a regular expression input.\n\nTo verify regular expressions, use [https://regex101.com/](https://regex101.com/).\n\nEndpoint base code forked from [https://github.com/TheRealDax/multi-api/blob/main/endpoints/regex.js](https://github.com/TheRealDax/multi-api/blob/main/endpoints/regex.js)."
-    post:
-      summary: Check a string for a regular expression
-      description: "This endpoint will return matched strings based on a regular expression input.\n\nTo verify regular expressions, use [https://regex101.com/](https://regex101.com/).\n\nEndpoint base code forked from [https://github.com/TheRealDax/multi-api/blob/main/endpoints/regex.js](https://github.com/TheRealDax/multi-api/blob/main/endpoints/regex.js)."
-      operationId: post_regex
-      requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              required:
-                - string
-                - regex
-              properties:
-                string:
-                  type: string
-                  description: The input string to match against
-                  example: Hello, world!
-                regex:
-                  type: string
-                  description: The regular expression to test
-                  example: '[A-Za-z]+'
-          application/json:
-            schema:
-              type: object
-              required:
-                - string
-                - regex
-              properties:
-                string:
-                  type: string
-                  description: The input string to match against
-                  example: Hello, world!
-                regex:
-                  type: string
-                  description: The regular expression to test
-                  example: '[A-Za-z]+'
-      responses:
-        '200':
-          description: Match found
-          content:
-            application/json:
-              example:
-                result:
-                  - match: Hello
-                    position: 0
-                    groups: []
-                  - match: world
-                    position: 7
-                    groups: []
-                exists: true
-                numMatches: 2
-        '204':
-          description: No match found
-          content:
-            application/json:
-              example:
-                result: No match found
-                exists: false
-                numMatches: 0
-        '400':
-          description: Missing or incorrect values
-          content:
-            application/json:
-              example:
-                error: Both string and regex must be defined
-        '500':
-          description: Internal server errors
-      tags:
-        - Strings
-  /replace:
-    summary: Replace parts of a string with a specified value
-    description: >-
-      This endpoint will return a modified string with replaced values based on
-      the inputs.
-    post:
-      summary: Replace parts of a string with a specified value
-      description: >-
-        This endpoint will return a modified string with replaced values based
-        on the inputs.
-      operationId: post_replace
-      requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              required:
-                - string
-                - whatToReplace
-                - replaceValue
-              properties:
-                string:
-                  type: string
-                  description: The original string
-                  example: String without replaced values
-                whatToReplace:
-                  type: string
-                  description: What to replace from the original string
-                  example: without
-                replaceValue:
-                  type: string
-                  description: What to replace whatToReplace with
-                  example: with
-          application/json:
-            schema:
-              type: object
-              required:
-                - string
-                - whatToReplace
-                - replaceValue
-              properties:
-                string:
-                  type: string
-                  description: The original string
-                  example: String without replaced values
-                whatToReplace:
-                  type: string
-                  description: What to replace from the original string
-                  example: without
-                replaceValue:
-                  type: string
-                  description: What to replace whatToReplace with
-                  example: with
-      responses:
-        '200':
-          description: Successful request
-          content:
-            application/json:
-              example:
-                newString: String with replaced values
-        '400':
-          description: Missing or incorrect values
-          content:
-            application/json:
-              example:
-                error: >-
-                  All values must be defined - string, whatToReplace,
-                  replaceValue
         '500':
           description: Internal server errors
       tags:
@@ -1023,6 +669,360 @@ paths:
           description: Internal server errors
       tags:
         - Discord Specific
+  /progress-bar:
+    summary: Generate a customized progress bar
+    description: This endpoint will generate a PNG of a progress bar based on inputs
+    get:
+      summary: Generate a customized progress bar
+      description: This endpoint will generate a PNG of a progress bar based on inputs
+      operationId: get_progress-bar
+      parameters:
+        - name: val
+          in: query
+          description: The current value (how much is done)
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+            example: 10
+        - name: maxval
+          in: query
+          description: The max value (what is 100%?)
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            example: 100
+        - name: bgcolor
+          in: query
+          description: >-
+            Color of the background behind bar (must be a hex code - don't
+            include the #)
+
+
+            *Default value if not included:* transparent
+          required: false
+          schema:
+            type: string
+            example: CA054D
+        - name: barcolor
+          in: query
+          description: >-
+            Color of the progress bar - section that isn't completed yet (must
+            be a hex code - don't include the #)
+
+
+            *Default value if not included:* C8C6D7
+          required: false
+          schema:
+            type: string
+            example: C8C6D7
+        - name: fillcolor
+          in: query
+          description: >-
+            Color of the progress bar - section that is completed (must be a hex
+            code - don't include the #)
+
+
+            *Default value if not included:* 005CE7
+          required: false
+          schema:
+            type: string
+            example: 005CE7
+        - name: showval
+          in: query
+          description: |-
+            Show val on the progress bar
+
+            *Default value if not included:* false
+          required: false
+          schema:
+            type: boolean
+        - name: showpercent
+          in: query
+          description: |-
+            Show percent complete on the progress bar
+
+            If showval is true, this will always be false
+
+            *Default value if not included:* false
+          required: false
+          schema:
+            type: boolean
+        - name: fontcolor
+          in: query
+          description: >-
+            Color for either showval or showpercent when percent completed is
+            less than 80% (must be a hex code - don't include the #)
+
+
+            *Default value if not included:* 07004d
+          required: false
+          schema:
+            type: string
+            example: 07004D
+        - name: fontcolor1
+          in: query
+          description: >-
+            Color for either showval or showpercent when percent completed is
+            greater than or equal to 80% (must be a hex code - don't include the
+            #)
+
+
+            *Default value if not included:* C8C6D7
+          required: false
+          schema:
+            type: string
+            example: C8C6D7
+        - name: grad
+          in: query
+          description: |-
+            Toggle whether gradient is on or off
+
+            *Default value if not included:* false
+          required: false
+          schema:
+            type: boolean
+        - name: gradcolor
+          in: query
+          description: >-
+            Color to fade the gradient to if grad is true (must be a hex code -
+            don't include the #)
+
+
+            *Default value if not included:* the calculated average between the
+            bar color and the fill color
+          required: false
+          schema:
+            type: string
+            example: CA054D
+      responses:
+        '200':
+          description: Image generated
+        '400':
+          description: Missing or incorrect values
+          content:
+            application/json:
+              examples:
+                Values not defined:
+                  value: '{"error":"Required values must be defined - maxval & val"}'
+                Values not numbers:
+                  value: '{"error":"maxval & val must be numbers"}'
+                Values not formatted correctly:
+                  value: >-
+                    {"error":"Required value val must be less than or equal to
+                    maxval"}
+                Hex codes incorrect:
+                  value: '{"error":"Please provide valid hex codes"}'
+        '500':
+          description: Internal server errors
+      tags:
+        - Canvas
+  /qrcode:
+    summary: Generate a QR code for a URL
+    description: This endpoint will generate a PNG of a QR code for a specified URL
+    get:
+      summary: Generate a QR code for a URL
+      description: This endpoint will generate a PNG of a QR code for a specified URL
+      operationId: get_qrcode
+      parameters:
+        - name: url
+          in: query
+          description: The URL to generate the QR code for
+          required: true
+          schema:
+            type: string
+            example: https://example.com/getting-a-qr-code
+        - name: size
+          in: query
+          description: |-
+            The size to make the canvas (it will always be a square)
+
+            *Default value if not included:* 500
+          required: false
+          schema:
+            type: integer
+            minimum: 100
+            maximum: 1000
+            example: 500
+      responses:
+        '200':
+          description: Image generated
+        '400':
+          description: Missing or incorrect values
+          content:
+            application/json:
+              example:
+                error: url is either invalid or missing
+        '500':
+          description: Internal server errors
+      tags:
+        - Canvas
+  /random-hex:
+    summary: Generate a random hex code
+    description: This endpoint will generate a random hex code
+    get:
+      summary: Generate a random hex code
+      description: This endpoint will generate a random hex code
+      operationId: get_random-hex
+      responses:
+        '200':
+          description: Random hex code generated
+          content:
+            application/json:
+              example:
+                hexCode: "#005CE7"
+                colorUrl: https://color-hex.org/color/005CE7
+        '500':
+          description: Internal server errors
+      tags:
+        - Colors
+  /regex:
+    summary: Check a string for a regular expression
+    description: "This endpoint will return matched strings based on a regular expression input.\n\nTo verify regular expressions, use [https://regex101.com/](https://regex101.com/).\n\nEndpoint base code forked from [https://github.com/TheRealDax/multi-api/blob/main/endpoints/regex.js](https://github.com/TheRealDax/multi-api/blob/main/endpoints/regex.js)."
+    post:
+      summary: Check a string for a regular expression
+      description: "This endpoint will return matched strings based on a regular expression input.\n\nTo verify regular expressions, use [https://regex101.com/](https://regex101.com/).\n\nEndpoint base code forked from [https://github.com/TheRealDax/multi-api/blob/main/endpoints/regex.js](https://github.com/TheRealDax/multi-api/blob/main/endpoints/regex.js)."
+      operationId: post_regex
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - string
+                - regex
+              properties:
+                string:
+                  type: string
+                  description: The input string to match against
+                  example: Hello, world!
+                regex:
+                  type: string
+                  description: The regular expression to test
+                  example: '[A-Za-z]+'
+          application/json:
+            schema:
+              type: object
+              required:
+                - string
+                - regex
+              properties:
+                string:
+                  type: string
+                  description: The input string to match against
+                  example: Hello, world!
+                regex:
+                  type: string
+                  description: The regular expression to test
+                  example: '[A-Za-z]+'
+      responses:
+        '200':
+          description: Match found
+          content:
+            application/json:
+              example:
+                result:
+                  - match: Hello
+                    position: 0
+                    groups: []
+                  - match: world
+                    position: 7
+                    groups: []
+                exists: true
+                numMatches: 2
+        '204':
+          description: No match found
+          content:
+            application/json:
+              example:
+                result: No match found
+                exists: false
+                numMatches: 0
+        '400':
+          description: Missing or incorrect values
+          content:
+            application/json:
+              example:
+                error: Both string and regex must be defined
+        '500':
+          description: Internal server errors
+      tags:
+        - Strings
+  /replace:
+    summary: Replace parts of a string with a specified value
+    description: >-
+      This endpoint will return a modified string with replaced values based on
+      the inputs.
+    post:
+      summary: Replace parts of a string with a specified value
+      description: >-
+        This endpoint will return a modified string with replaced values based
+        on the inputs.
+      operationId: post_replace
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - string
+                - whatToReplace
+                - replaceValue
+              properties:
+                string:
+                  type: string
+                  description: The original string
+                  example: String without replaced values
+                whatToReplace:
+                  type: string
+                  description: What to replace from the original string
+                  example: without
+                replaceValue:
+                  type: string
+                  description: What to replace whatToReplace with
+                  example: with
+          application/json:
+            schema:
+              type: object
+              required:
+                - string
+                - whatToReplace
+                - replaceValue
+              properties:
+                string:
+                  type: string
+                  description: The original string
+                  example: String without replaced values
+                whatToReplace:
+                  type: string
+                  description: What to replace from the original string
+                  example: without
+                replaceValue:
+                  type: string
+                  description: What to replace whatToReplace with
+                  example: with
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              example:
+                newString: String with replaced values
+        '400':
+          description: Missing or incorrect values
+          content:
+            application/json:
+              example:
+                error: >-
+                  All values must be defined - string, whatToReplace,
+                  replaceValue
+        '500':
+          description: Internal server errors
+      tags:
+        - Strings
 tags:
   - name: NEW!!
   - name: Canvas
