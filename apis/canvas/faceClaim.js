@@ -2,6 +2,7 @@ const { createCanvas, loadImage } = require("canvas");
 const avgColorFromImage = require("../../helper-functions/colors/avgColorFromImage");
 const isValidHexColor = require("../../helper-functions/colors/isValidHexColor");
 const rgbToHex = require("../../helper-functions/colors/rgbToHex");
+const hexToRgb = require("../../helper-functions/colors/hexToRgb");
 const axios = require("axios");
 
 const faceClaim = async (req, res) => {
@@ -93,8 +94,8 @@ const faceClaim = async (req, res) => {
     ctx.clip();
     ctx.drawImage(image, 0, 0, circleRadius * 2, circleRadius * 2);
     ctx.restore();
-    //prettier-ignore
-    const imageData = ctx.getImageData(0, 0, circleRadius * 2, circleRadius * 2).data;
+
+    const imageData = ctx.getImageData(0, 0, canvas.height, canvas.height).data;
     let imageColor = avgColorFromImage(imageData);
     imageColor = rgbToHex(imageColor[0], imageColor[1], imageColor[2]);
 
@@ -158,7 +159,7 @@ const faceClaim = async (req, res) => {
     // character name
     let charFontColor;
     if (!req.query.charnamecolor) {
-      charFontColor = `#${imageColor}`;
+      charFontColor = "#ffffff";
     } else {
       charFontColor = `#${req.query.charnamecolor}`;
     }
@@ -171,7 +172,7 @@ const faceClaim = async (req, res) => {
     // face claim name
     let fcFontColor;
     if (!req.query.fcnamecolor) {
-      fcFontColor = `#${imageColor}`;
+      fcFontColor = "#ffffff";
     } else {
       fcFontColor = `#${req.query.fcnamecolor}`;
     }
@@ -186,7 +187,7 @@ const faceClaim = async (req, res) => {
     // user name
     let userFontColor;
     if (!req.query.usercolor) {
-      userFontColor = `#${imageColor}`;
+      userFontColor = "#ffffff";
     } else {
       userFontColor = `#${req.query.usercolor}`;
     }
