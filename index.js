@@ -56,7 +56,7 @@ async function Init() {
   // canvas endpoints
   app.get("/progress-bar", progressBar);
   app.get("/qrcode", qrCode);
-  app.get(`${lockedPath}/face-claim`, faceClaim); // not ready yet
+  app.get(`${lockedPath}/face-claim`, faceClaim);
   // colors endpoints
   app.get("/check-hex", checkHexColor);
   app.get("/random-hex", randomHex);
