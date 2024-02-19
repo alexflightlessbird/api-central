@@ -15,12 +15,9 @@ info:
 
 
     This project is open-source and the source code can always be found at its
-    [GitHub Repository](https://github.com/alexflightlessbird/api-central).
-
-
-    Please note that apis not on this page are not available for public use, but
-    may be forked from the GitHub code at your convenience, with appropriate
-    credit attached if made public.
+    [GitHub Repository](https://github.com/alexflightlessbird/api-central). All endpoints
+    may be forked from the GitHub code with appropriate
+    credit attached following license requirements (see below for GPL-3.0 licensure).
   contact:
     email: alexflightlessbird@gmail.com
     name: Alex X
