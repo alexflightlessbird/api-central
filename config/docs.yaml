@@ -214,6 +214,42 @@ paths:
           description: Internal server errors
       tags:
         - Canvas
+  /avg-color:
+    summary: Get average pixel color from an image URL
+    description: This endpoint will calculate the average pixel color from an inputted image URL
+    get:
+      summary: Get average pixel color from an image URL
+      description: This endpoint will calculate the average pixel color from an inputted image URL
+      operationId: get_avg-color
+      parameters:
+        - name: imageurl
+          in: query
+          description: 'The image URL to calculate from'
+          required: true
+          schema:
+            type: string
+            example: "https://images.unsplash.com/photo-1708242124912-ca576feddd90?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              example:
+                {"color":"#380B08", "colorUrl":"https://color-hex.org/color/380B08"}
+        '400':
+          description: Missing or incorrect values
+          content:
+            application/json:
+              examples:
+                imageurl not defined:
+                  value: '{"error":"imageurl must be defined"}'
+                imageurl invalid:
+                  value: '{"error":"imageurl must point to an image"}'
+        '500':
+          description: Internal server errors
+      tags:
+        - NEW!!
+        - Colors
   /check-hex:
     summary: Check if a value is a valid hex code
     description: >-
