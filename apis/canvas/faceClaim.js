@@ -137,7 +137,7 @@ const faceClaim = async (req, res) => {
     // dashed line
     const starLine = "✭⭒⭒⭒✭⭒⭒⭒✭⭒⭒⭒✭⭒⭒⭒✭⭒⭒⭒✭⭒⭒⭒✭⭒⭒⭒✭⭒⭒⭒✭⭒⭒⭒✭⭒⭒⭒✭⭒⭒⭒✭⭒⭒⭒✭";
     ctx.textAlign = "center";
-    ctx.font = "15px Segoe UI Symbol";
+    ctx.font = "15px Noto Sans Symbols 2";
     ctx.textBaseline = "middle";
     ctx.fillStyle = `#${imageColor}`;
     ctx.fillText(starLine, centerOfRight, canvas.height / 2);
