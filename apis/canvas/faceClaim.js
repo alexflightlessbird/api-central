@@ -74,17 +74,29 @@ const faceClaim = async (req, res) => {
       }
     }
 
+    if (req.query.bgcolor) {
+      if (!isValidHexColor(req.query.bgcolor)) {
+        //prettier-ignore
+        return res.status(400).json({ error: "Please provide valid hex codes" });
+      }
+    }
+
     // canvas creation
     const image = await loadImage(imageurl);
 
     const canvas = createCanvas(800, 300);
     const ctx = canvas.getContext("2d");
 
-    // make background transparent
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.globalCompositeOperation = "source-over";
-    ctx.fillStyle = `rgba(0, 0, 0, 0)`;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // background
+    if (req.query.bgcolor) {
+      ctx.fillStyle = `#${req.query.bgcolor}`;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    } else {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.globalCompositeOperation = "source-over";
+      ctx.fillStyle = `rgba(0, 0, 0, 0)`;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
 
     // image on left
     const circleRadius = canvas.height / 2;
