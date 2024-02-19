@@ -15,6 +15,7 @@ async function Init() {
   app.use((req, res, next) => {
     if (
       req.path === "/health-check" ||
+      req.path === "/" ||
       req.path.startsWith("/docs") ||
       req.path.startsWith(`${lockedPath}/docs`)
     ) {
@@ -72,6 +73,9 @@ async function Init() {
   app.get("/permission-comp", permissionComp);
   app.get("/permission-comp/full", permissionFullComp);
 
+  app.get("/", (req, res) => {
+    res.redirect("/docs");
+  });
   const swaggerDoc = YAML.load("./config/docs.yaml");
   app.use("/docs", swaggerui.serve, swaggerui.setup(swaggerDoc));
 
